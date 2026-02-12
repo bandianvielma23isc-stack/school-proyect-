@@ -1,5 +1,4 @@
-## Nombre del proyecto:
-Club Manager Escolar (CME)
+## Nombre del proyecto: Club Manager Escolar (CME)
 
 ## Descripcion del proyecto: 
 El administrador tiene software para agregar/manejar clubes, pero el quiere algo mas eficiente.
