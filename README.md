@@ -10,10 +10,10 @@ la matricula y es un tanto tedioso de hacer.
 Administrativo de clubes
 
 ## Alcance del proyecto:
-1.Llevar a cabo el registro de alumnos correctamente dentro del sistema con una integracion de una base de datos funcional.
-2.Visualizacion de los alumnos en cada club activo.
-3.Sistema para que nuevos grupos soliciten convertirse en clubes oficiales y el encargado los apruebe o rechace.
-4.No sera red social con llamadas y mensajes entre alumnos.
+1.Llevar a cabo el registro de alumnos correctamente dentro del sistema con una integracion de una base de datos funcional.  
+2.Visualizacion de los alumnos en cada club activo.  
+3.Sistema para que nuevos grupos soliciten convertirse en clubes oficiales y el encargado los apruebe o rechace.  
+4.No sera red social con llamadas y mensajes entre alumnos.  
 5.No incluirá ningun apartado de pagos o suscripciones.
 
 ## Estado del proyecto:
