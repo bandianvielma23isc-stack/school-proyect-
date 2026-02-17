@@ -9,13 +9,6 @@ la matricula y es un tanto tedioso de hacer.**
 ## Usuario:
 **Persona administrativa de clubes.**
 
-## Alcance del proyecto:
-**-Llevar a cabo el registro de alumnos correctamente dentro del sistema con una integracion de una base de datos funcional.  
--Visualizacion de los alumnos en cada club activo.  
--Sistema para que nuevos grupos soliciten convertirse en clubes oficiales y el encargado los apruebe o rechace.  
--No sera red social con llamadas y mensajes entre alumnos.  
--No incluirá ningun apartado de pagos o suscripciones.**
-
 ## Estado del proyecto:
 **Inicializacion y organizacion de roles.**
 
@@ -29,3 +22,9 @@ la matricula y es un tanto tedioso de hacer.**
 -Oliver: Analista  
 -Diego: Tester**
 
+## Alcance del proyecto:
+**-Llevar a cabo el registro de alumnos correctamente dentro del sistema con una integracion de una base de datos funcional.  
+-Visualizacion de los alumnos en cada club activo.  
+-Sistema para que nuevos grupos soliciten convertirse en clubes oficiales y el encargado los apruebe o rechace.  
+-No sera red social con llamadas y mensajes entre alumnos.  
+-No incluirá ningun apartado de pagos o suscripciones.**
