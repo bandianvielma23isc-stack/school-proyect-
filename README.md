@@ -23,8 +23,4 @@ la matricula y es un tanto tedioso de hacer.**
 -Diego: Tester**
 
 ## Alcance del proyecto:
-**-Llevar a cabo el registro de alumnos correctamente dentro del sistema con una integracion de una base de datos funcional.  
--Visualizacion de los alumnos en cada club activo.  
--Sistema para que nuevos grupos soliciten convertirse en clubes oficiales y el encargado los apruebe o rechace.  
--No sera red social con llamadas y mensajes entre alumnos.  
--No incluirá ningun apartado de pagos o suscripciones.**
+**Desarrollar una plataforma web integral que permita al personal administrativo y a los encargados de clubs del Instituto Tecnológico de San Pedro gestionar de manera digital, eficiente y transparente el registro, seguimiento y control de los alumnos en las diversas actividades extraescolares.**
