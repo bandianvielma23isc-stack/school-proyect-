@@ -7,7 +7,7 @@ tambien desea poder filtrar alumnos, debido a que la forma actual de hacerlo sol
 la matricula y es un tanto tedioso de hacer.**
 
 ## Usuario:
-**Persona administrativa de clubes.**
+**Encargado de extraescolares.**
 
 ## Estado del proyecto:
 **Inicializacion y organizacion de roles.**
@@ -23,4 +23,4 @@ la matricula y es un tanto tedioso de hacer.**
 -Diego: Tester**
 
 ## Alcance del proyecto:
-**Desarrollar una plataforma web integral que permita al personal administrativo y a los encargados de clubs del Instituto Tecnológico de San Pedro gestionar de manera digital, eficiente y transparente el registro, seguimiento y control de los alumnos en las diversas actividades extraescolares.**
+**Desarrollar una plataforma web integral para la digitalizacion del registro de alumnos en clubes deportivos y culturales. El sistema permitira la clasificacion de actividades, validacion por matricula, busqueda dinamica por nombre y la generacion de reportes administrativos, eliminando la dependencia de procesos manuales.**
