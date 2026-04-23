@@ -25,13 +25,14 @@ Criterio 2 (Integridad): El campo "Club" debe ser un menú desplegable (select) 
 Criterio 3 (No Duplicidad): Si se intenta registrar una matrícula que ya existe en cualquier club, el sistema debe bloquear la inserción y mostrar un mensaje: "Error: El alumno ya se encuentra inscrito en un club" (Regla 6 y 4).
 
 Criterio 4 (Feedback): Tras una inserción exitosa, el sistema debe limpiar el formulario y mostrar un mensaje de confirmación verde: "Alumno registrado correctamente" (Regla 4 y 5).
+
 Criterio 5(seguridad y jerarquia):Validar las credenciales en el inicio de sesion y redireccionar al dashboard correspondiente para cada usuario.
 
 Pruebas del sistema(escenarios simulados)
 Prueba de Roles (Regla 1): 
 Iniciar sesión como "Estudiante" e intentar entrar manualmente a la URL para eliminar al alumno. El sistema debería redirigir al Index o mostrar "Acceso Denegado".
 
-Prueba de Insercion: Intentar meter un nombre con símbolos extraños para ver si tus validaciones de formato (Regla 3) funcionan antes de llegar a la base de datos.
+Prueba de Insercion: Intentar meter un nombre con símbolos extraños para ver si las validaciones de formato (Regla 3) funcionan antes de llegar a la base de datos.
 
 Fuera de alcance 
 No Autogestión: El alumno no puede crear su propia cuenta; solo el admin lo registra.
