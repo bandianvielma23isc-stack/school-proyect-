@@ -35,7 +35,6 @@ Iniciar sesión como "Estudiante" e intentar entrar manualmente a la URL para el
 Prueba de Insercion: Intentar meter un nombre con símbolos extraños para ver si las validaciones de formato (Regla 3) funcionan antes de llegar a la base de datos.
 
 Fuera de alcance 
-No Autogestión: El alumno no puede crear su propia cuenta; solo el admin lo registra.
 
 No Pagos: El sistema no procesa pagos de cuotas ni deudas.
 
