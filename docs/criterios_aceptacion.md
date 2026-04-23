@@ -17,6 +17,7 @@ El usuario debe registrarse o iniciar sesión al entrar al sistema con sus crede
 
 
 Criterios de aceptación 
+
 Criterio 1 (Validación de Formatos): 
 El sistema debe rechazar el formulario si el campo "Nombre" contiene números o si la "Matrícula" contiene letras (Regla 3).
 
