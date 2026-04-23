@@ -20,3 +20,8 @@ Mejora de interfaz
 - Formularios simples y funcionales
 - Diseño limpio y organizado
 
+Formulario de usuario
+
+-Registrar sus datos
+-Elegir su carrera
+-Obtener una cuenta
