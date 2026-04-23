@@ -20,7 +20,7 @@ $descripciones = [
     'Voleiball' => 'Coordinación y dinamismo. Técnica de saque, boleo y juego en conjunto.'
 ];
 
-// Maestros encargados
+// Maestros encargados en cada club
 $maestros = [
     'Tiro con Arco' => 'Prof. Roberto Sierra',
     'Ajedrez' => 'Ing. Alicia Méndez',
