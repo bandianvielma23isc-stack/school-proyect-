@@ -45,3 +45,9 @@
 | Entrada: | Usuario y contraseña de alumno. |
 | Esperado y obtenido: | **Esperado:** Si el usuario alumno quiere acceder al apartado de admin mediante la URL, el sistema debe de bloquearlo.<br>**Obtenido:** El sistema al cambiar la url desde el apartado de alumno a la del admin, se redirige al login y no permite entrar al menos que inicie sesión como admin. |
 | Estado: | Correcto |
+
+| Caso | Prueba de inyección. |
+|------|----------------------|
+| Entrada: | Datos del alumno |
+| Esperado y obtenido: | **Esperado:** Al intentar meter un nombre con símbolos extraños para validar que no lleguen a la base de datos esa información del campo.<br>**Obtenido:** El sistema rechaza cualquier carácter erróneo y no permite que llegue a la base de datos para que no cause conflicto. |
+| Estado: | Correcto |
