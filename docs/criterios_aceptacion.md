@@ -29,6 +29,7 @@ Criterio 4 (Feedback): Tras una inserción exitosa, el sistema debe limpiar el f
 Criterio 5(seguridad y jerarquia):Validar las credenciales en el inicio de sesion y redireccionar al dashboard correspondiente para cada usuario.
 
 Pruebas del sistema(escenarios simulados)
+
 Prueba de Roles (Regla 1): 
 Iniciar sesión como "Estudiante" e intentar entrar manualmente a la URL para eliminar al alumno. El sistema debería redirigir al Index o mostrar "Acceso Denegado".
 
