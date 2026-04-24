@@ -1,32 +1,23 @@
 <?php
+session_start();
 include 'conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre = trim($_POST['nombre']);
-    $apellidos = trim($_POST['apellidos']);
-    $matricula = trim($_POST['matricula']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['admin_auth'])) {
+
+    $matricula = mysqli_real_escape_string($conn, $_POST['matricula']);
+    $nombre = mysqli_real_escape_string($conn, $_POST['nombre']);
+    $apellidos = mysqli_real_escape_string($conn, $_POST['apellidos']);
     $carrera = $_POST['carrera'];
     $club_id = $_POST['club_id'];
 
-    // 1. Verificar si la matrícula ya existe
-    $check_mat = mysqli_query($conn, "SELECT * FROM alumnos WHERE matricula = '$matricula'");
+    $sql = "INSERT INTO alumnos (matricula, nombre, apellidos, carrera, club_id) 
+            VALUES ('$matricula', '$nombre', '$apellidos', '$carrera', '$club_id')";
 
-    // 2. Verificar si el nombre completo ya existe
-    $check_nom = mysqli_query($conn, "SELECT * FROM alumnos WHERE nombre = '$nombre' AND apellidos = '$apellidos'");
-
-    if (mysqli_num_rows($check_mat) > 0) {
-        echo "<script>alert('Error: La matrícula $matricula ya está registrada.'); window.location='registrar.php';</script>";
-    } elseif (mysqli_num_rows($check_nom) > 0) {
-        echo "<script>alert('Error: El alumno $nombre $apellidos ya está inscrito en un club.'); window.location='registrar.php';</script>";
+    if (mysqli_query($conn, $sql)) {
+        // Al terminar, te regresa al Dashboard principal
+        header("Location: ../fronted/admin.php?success=1");
+        exit();
     } else {
-        // Si todo está limpio, insertamos
-        $sql = "INSERT INTO alumnos (nombre, apellidos, matricula, carrera, club_id) 
-                VALUES ('$nombre', '$apellidos', '$matricula', '$carrera', '$club_id')";
-
-        if (mysqli_query($conn, $sql)) {
-            echo "<script>alert('¡Registro exitoso! Bienvenido.'); window.location='index.php';</script>";
-        } else {
-            echo "Error técnico: " . mysqli_error($conn);
-        }
+        echo "Error: " . mysqli_error($conn);
     }
 }

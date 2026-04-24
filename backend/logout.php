@@ -1,3 +1,6 @@
-<?php session_start();
+<?php
+session_start();
 session_destroy();
-header("Location: index.php");
+// Corregido a fronted
+header("Location: ../fronted/index.php");
+exit();

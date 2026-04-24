@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Opciones Alumno</title>
+    <title>Opciones Alumno - TEC San Pedro</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #f4f4f4;
+            background-color: #e0e0e0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,50 +16,83 @@
             margin: 0;
         }
 
+        .logo-tec {
+            width: 220px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: bold;
+        }
+
         .container {
             display: flex;
-            gap: 20px;
+            gap: 30px;
         }
 
         .card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            width: 220px;
+            padding: 40px 20px;
+            border-radius: 25px;
             text-align: center;
-            width: 200px;
             text-decoration: none;
-            color: #333;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             transition: 0.3s;
-            border-top: 6px solid #B30000;
+            border-top: 5px solid #B30000;
         }
 
         .card:hover {
             transform: translateY(-10px);
         }
 
-        h2 {
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card h2 {
+            margin: 10px 0;
             color: #B30000;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .btn-regresar {
+            margin-top: 40px;
+            color: #888;
+            text-decoration: none;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
-    <img src="logo_tec.png" width="200" style="margin-bottom:20px;">
+    <img src="logo_tec.png" class="logo-tec">
     <h1>¿Qué deseas hacer?</h1>
     <div class="container">
         <a href="login_alumno.php" class="card">
-            <div style="font-size:40px;">🔑</div>
-            <h2>Ya estoy inscrito</h2>
-            <p>Ver mis datos</p>
+            <span class="icon">🆔</span>
+            <h2>Ingresar</h2>
+            <p>Ya estoy registrado</p>
         </a>
         <a href="registrar.php" class="card">
-            <div style="font-size:40px;">📝</div>
-            <h2>Soy nuevo</h2>
-            <p>Registrar mis datos</p>
+            <span class="icon">📝</span>
+            <h2>Registrarme</h2>
+            <p>Darse de alta</p>
         </a>
     </div>
-    <br><a href="index.php" style="color:#666; text-decoration:none;">← Volver al inicio</a>
+    <a href="index.php" class="btn-regresar">← Volver al inicio</a>
 </body>
 
 </html>
