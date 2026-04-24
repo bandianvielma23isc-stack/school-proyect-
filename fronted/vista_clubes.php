@@ -1,276 +1,181 @@
 <?php
 session_start();
-include 'conexion.php';
-
-// Seguridad: Solo admin
-if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+include '../backend/conexion.php';
+if (!isset($_SESSION['admin_auth'])) {
     header("Location: login.php");
     exit();
 }
-
-// Descripciones de los clubes
-$descripciones = [
-    'Tiro con Arco' => 'Disciplina y precisión. Enfocado en la técnica de tiro olímpico y control mental.',
-    'Ajedrez' => 'Estrategia y lógica. Espacio para desarrollar el pensamiento crítico y táctico.',
-    'Norteño' => 'Preservación de música regional. Ensayo de instrumentos tradicionales y ensamble.',
-    'Fútbol' => 'Trabajo en equipo y condición física. Entrenamientos tácticos y torneos internos.',
-    'Rondalla' => 'Expresión romántica y armonía vocal. Especializado en cuerdas y coros.',
-    'Danza' => 'Arte en movimiento. Práctica de baile folclórico y contemporáneo representativo.',
-    'Basketball' => 'Agilidad y estrategia en la duela. Desarrollo de fundamentos y competencia.',
-    'Voleiball' => 'Coordinación y dinamismo. Técnica de saque, boleo y juego en conjunto.'
-];
-
-// Maestros encargados en cada club
-$maestros = [
-    'Tiro con Arco' => 'Prof. Roberto Sierra',
-    'Ajedrez' => 'Ing. Alicia Méndez',
-    'Norteño' => 'Lic. Javier Solís',
-    'Fútbol' => 'Coach Fernando Hierro',
-    'Rondalla' => 'Profa. Elena Ríos',
-    'Danza' => 'Lic. Carmen Vega',
-    'Basketball' => 'Prof. Saúl Castro',
-    'Voleiball' => 'Dra. Mónica Parga'
-];
-
-// Consulta principal
-$query = "SELECT c.id, c.nombre_club, COUNT(a.id) as total_alumnos 
-          FROM clubes c 
-          LEFT JOIN alumnos a ON c.id = a.club_id 
-          GROUP BY c.id";
-$res = mysqli_query($conn, $query);
+$res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as inscritos FROM clubes c LEFT JOIN alumnos a ON c.id = a.club_id GROUP BY c.id");
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estatus de Clubes - TEC San Pedro</title>
+    <title>Vista de Clubes - Administrador</title>
     <style>
-        :root {
-            --negro-fondo: #121212;
-            --negro-panel: #1e1e1e;
-            --rojo: #B30000;
-            --blanco: #ffffff;
-            --texto-gris: #b3b3b3;
-        }
-
         body {
             font-family: 'Segoe UI', sans-serif;
+            background-color: #0c0c0c;
+            color: #fff;
             margin: 0;
             display: flex;
-            background: var(--negro-fondo);
-            color: var(--blanco);
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .sidebar {
-            width: 260px;
-            background: var(--negro-panel);
-            height: 100vh;
-            position: fixed;
-            border-right: 1px solid #333;
+            width: 250px;
+            background-color: #141414;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #222;
+            flex-shrink: 0;
         }
 
-        .logo-container {
-            padding: 30px;
-            text-align: center;
-            border-bottom: 1px solid #333;
+        .logo-tec {
+            width: 140px;
+            margin-bottom: 40px;
+            align-self: center;
         }
 
-        .logo-container img {
-            width: 130px;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            color: var(--texto-gris);
-            padding: 15px 30px;
+        .nav-link {
+            color: #888;
             text-decoration: none;
+            padding: 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            display: block;
+            border-left: 4px solid transparent;
             transition: 0.3s;
         }
 
-        .sidebar-menu a:hover {
-            color: white;
-            background: #252525;
-            border-left: 5px solid var(--rojo);
-        }
-
-        .logout-btn {
-            background: var(--rojo);
+        .active {
+            background: #333 !important;
             color: white !important;
-            margin: 40px 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
+            border-left: 4px solid #B30000 !important;
         }
 
-        .main {
-            margin-left: 260px;
-            width: calc(100% - 260px);
+        .btn-logout {
+            background: #B30000;
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            margin-top: auto;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .main-content {
+            flex: 1;
             padding: 40px;
-            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            border-left: 6px solid #B30000;
+            padding-left: 20px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
         }
 
         .club-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
         }
 
-        .club-card {
-            background: var(--negro-panel);
-            border-radius: 15px;
-            padding: 20px;
-            border-left: 6px solid var(--rojo);
+        .card-club {
+            background: #181818;
+            border: 1px solid #222;
             cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .club-card:hover {
-            background: #252525;
-            transform: translateY(-5px);
+        .card-header-red {
+            background: #B30000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .info-extra {
-            display: none;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #333;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .count-badge {
-            background: rgba(179, 0, 0, 0.2);
-            color: var(--rojo);
-            padding: 5px 12px;
-            border-radius: 15px;
+        .club-name {
+            margin: 0;
+            font-size: 18px;
+            color: #fff;
             font-weight: bold;
-            font-size: 13px;
-            border: 1px solid var(--rojo);
+            text-transform: uppercase;
+        }
+
+        .card-body {
+            padding: 25px;
         }
 
         .student-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 10px;
+            display: none;
+            background: #111;
+            border-top: 1px solid #222;
         }
 
-        .student-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #2a2a2a;
-            font-size: 14px;
-            color: #ddd;
+        .show {
+            display: block;
         }
 
-        .carrera-text {
-            color: #888;
-            font-style: italic;
-            font-size: 12px;
-            margin-left: 5px;
+        .student-row {
+            display: flex;
+            padding: 10px 25px;
+            font-size: 13px;
+            border-bottom: 1px solid #1a1a1a;
         }
 
-        .matricula-text {
-            color: var(--rojo);
+        .col-mat {
+            color: #B30000;
             font-weight: bold;
-            font-size: 12px;
-            margin-left: 10px;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-
-            body {
-                flex-direction: column;
-            }
-
-            .main {
-                margin-left: 0;
-                width: 100%;
-                padding: 20px;
-            }
+            width: 120px;
+            font-family: monospace;
         }
     </style>
 </head>
 
 <body>
-
     <div class="sidebar">
-        <div class="logo-container"><img src="logo_tec.png" alt="Logo"></div>
-        <div class="sidebar-menu">
-            <a href="admin.php">Dashboard</a>
-            <a href="registrar.php">Insertar Alumno</a>
-            <a href="vista_clubes.php" style="color:white; background:#252525; border-left:5px solid var(--rojo);">Vista de Clubes</a>
-            <a href="logout.php" class="logout-btn">CERRAR SESIÓN</a>
-        </div>
+        <img src="logo_tec.png" class="logo-tec">
+        <a href="admin.php" class="nav-link">Dashboard</a>
+        <a href="registrar.php" class="nav-link">Insertar Alumno</a>
+        <a href="vista_clubes.php" class="nav-link active">Vista de Clubes</a>
+        <a href="../backend/logout.php" class="btn-logout">Cerrar Sesión</a>
     </div>
-
-    <div class="main">
-        <h1>Estatus de Clubes</h1>
+    <div class="main-content">
+        <h1>Clubes TEC</h1>
         <div class="club-grid">
-            <?php while ($c = mysqli_fetch_array($res)):
-                $cid = $c['id'];
-                $nom = $c['nombre_club'];
+            <?php while ($c = mysqli_fetch_array($res_clubes)):
+                $id_club = $c['id'];
+                $nom_raw = strtoupper($c['nombre_club']);
+                $al_q = mysqli_query($conn, "SELECT nombre, apellidos, matricula, carrera FROM alumnos WHERE club_id = '$id_club'");
             ?>
-                <div class="club-card" onclick="toggleClub(<?= $cid ?>)">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <h3 style="margin:0;"><?= $nom ?></h3>
-                        <span class="count-badge"><?= $c['total_alumnos'] ?> Alumnos</span>
+                <div class="card-club" onclick="this.querySelector('.student-list').classList.toggle('show')">
+                    <div class="card-header-red">
+                        <h2 class="club-name"><?= $nom_raw ?></h2><span style="font-size:12px;"><?= $c['inscritos'] ?> INSCRITOS</span>
                     </div>
-                    <p style="font-size:14px; color:var(--texto-gris); margin: 10px 0;">Encargado: <strong><?= $maestros[$nom] ?></strong></p>
-
-                    <div id="extra-<?= $cid ?>" class="info-extra">
-                        <p style="font-size:14px; color: #ccc; margin-bottom: 15px;"><i>"<?= $descripciones[$nom] ?>"</i></p>
-
-                        <h4 style="color:var(--rojo); margin-bottom:10px;">Lista de Alumnos:</h4>
-                        <ul class="student-list">
-                            <?php
-                            // Ahora pedimos nombre, apellidos, carrera y MATRICULA
-                            $alum = mysqli_query($conn, "SELECT nombre, apellidos, carrera, matricula FROM alumnos WHERE club_id = '$cid'");
-                            if (mysqli_num_rows($alum) > 0):
-                                while ($a = mysqli_fetch_array($alum)): ?>
-                                    <li>
-                                        • <?= $a['nombre'] ?> <?= $a['apellidos'] ?>
-                                        <span class="carrera-text">— <?= $a['carrera'] ?></span>
-                                        <span class="matricula-text">[<?= $a['matricula'] ?>]</span>
-                                    </li>
-                                <?php endwhile;
-                            else: ?>
-                                <li style="color:#555;">Sin registros.</li>
-                            <?php endif; ?>
-                        </ul>
+                    <div class="card-body">
+                        <small style="color:#888; font-weight:bold;">Taller deportivo/cultural</small>
+                    </div>
+                    <div class="student-list">
+                        <?php while ($al = mysqli_fetch_array($al_q)): ?>
+                            <div class="student-row"><span class="col-mat"><?= $al['matricula'] ?></span><span style="flex:1;"><?= $al['nombre'] ?></span></div>
+                        <?php endwhile; ?>
                     </div>
                 </div>
             <?php endwhile; ?>
         </div>
     </div>
-
-    <script>
-        function toggleClub(id) {
-            const extra = document.getElementById('extra-' + id);
-            const isVisible = extra.style.display === 'block';
-            document.querySelectorAll('.info-extra').forEach(el => el.style.display = 'none');
-            extra.style.display = isVisible ? 'none' : 'block';
-        }
-    </script>
 </body>
 
 </html>

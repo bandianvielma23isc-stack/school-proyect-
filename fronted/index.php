@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #f4f4f4;
+            background-color: #e0e0e0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,51 +16,64 @@
             margin: 0;
         }
 
-        .logo {
-            max-width: 250px;
+        .logo-tec {
+            width: 220px;
             margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
         .container {
             display: flex;
-            gap: 20px;
+            gap: 30px;
         }
 
         .card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            background: #ffffff;
             width: 220px;
+            padding: 40px 20px;
+            border-radius: 25px;
+            text-align: center;
             text-decoration: none;
-            color: #333;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             transition: 0.3s;
-            border-top: 6px solid #B30000;
+            border-bottom: 8px solid #B30000;
         }
 
         .card:hover {
             transform: translateY(-10px);
         }
 
-        h2 {
-            color: #B30000;
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card h2 {
             margin: 10px 0;
+            color: #B30000;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 
 <body>
-    <img src="logo_tec.png" class="logo">
+    <img src="logo_tec.png" class="logo-tec">
     <h1>Gestión de Clubes Escolares</h1>
     <div class="container">
         <a href="opciones_alumno.php" class="card">
-            <div style="font-size:50px;">🎓</div>
+            <span class="icon">🎓</span>
             <h2>Soy Alumno</h2>
-            <p>Ingresar o Registrarme</p>
+            <p>Acceder al portal</p>
         </a>
         <a href="login.php" class="card">
-            <div style="font-size:50px;">👨‍🏫</div>
+            <span class="icon">👨‍🏫</span>
             <h2>Soy Admin</h2>
             <p>Gestionar registros</p>
         </a>

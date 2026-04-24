@@ -2,22 +2,20 @@
 session_start();
 include 'conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Limpiamos los datos para evitar errores por espacios extra
-    $nombre = trim($_POST['nombre']);
-    $matricula = trim($_POST['matricula']);
+if (isset($_POST['matricula'])) {
+    $matricula = mysqli_real_escape_string($conn, $_POST['matricula']);
+    $query = "SELECT * FROM alumnos WHERE matricula = '$matricula'";
+    $res = mysqli_query($conn, $query);
 
-    // La consulta ahora busca que coincidan AMBOS campos
-    $query = "SELECT * FROM alumnos WHERE nombre = '$nombre' AND matricula = '$matricula'";
-    $resultado = mysqli_query($conn, $query);
+    if (mysqli_num_rows($res) > 0) {
+        $datos = mysqli_fetch_array($res);
+        $_SESSION['alumno_matricula'] = $datos['matricula'];
+        $_SESSION['alumno_nombre'] = $datos['nombre'];
 
-    if (mysqli_num_rows($resultado) > 0) {
-        // Si coinciden, guardamos la matrícula en la sesión para el dashboard
-        $_SESSION['alumno_matricula'] = $matricula;
-        header("Location: perfil_alumno.php");
+        // Corregido a fronted
+        header("Location: ../fronted/perfil_alumno.php");
+        exit();
     } else {
-        // Si falla uno o ambos, regresamos con error
-        header("Location: login_alumno.php?error=1");
+        echo "<script>alert('Matrícula no encontrada'); window.location='../fronted/login_alumno.php';</script>";
     }
 }
-?>
