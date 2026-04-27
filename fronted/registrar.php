@@ -1,8 +1,6 @@
 <?php
-session_start();
 include '../backend/conexion.php';
 
-// Obtenemos los clubes para el menú desplegable
 $query_clubes = "SELECT id, nombre_club FROM clubes";
 $res_clubes = mysqli_query($conn, $query_clubes);
 ?>
@@ -12,6 +10,7 @@ $res_clubes = mysqli_query($conn, $query_clubes);
 <head>
     <meta charset="UTF-8">
     <title>Registro de Alumno - TEC San Pedro</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -84,7 +83,6 @@ $res_clubes = mysqli_query($conn, $query_clubes);
             text-transform: uppercase;
             cursor: pointer;
             margin-top: 10px;
-            transition: 0.3s;
         }
 
         .btn-enviar:hover {
@@ -104,23 +102,23 @@ $res_clubes = mysqli_query($conn, $query_clubes);
 <body>
 
     <div class="form-card">
-        <img src="logo_tec.png" class="logo-tec" alt="TEC">
+        <img src="logo_tec.png" class="logo-tec">
         <h2>Registro de Alumno</h2>
 
-        <form action="../backend/guardar.php" method="POST">
+        <form action="../backend/guardar.php" method="POST" id="formRegistro">
             <div class="input-group">
                 <label>Nombre(s):</label>
-                <input type="text" name="nombre" required>
+                <input type="text" name="nombre" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" required>
             </div>
 
             <div class="input-group">
                 <label>Apellidos:</label>
-                <input type="text" name="apellidos" required>
+                <input type="text" name="apellidos" pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" title="Solo se permiten letras" required>
             </div>
 
             <div class="input-group">
                 <label>Matrícula:</label>
-                <input type="text" name="matricula" required>
+                <input type="text" name="matricula" pattern="[0-9]+" title="Solo se permiten números" required>
             </div>
 
             <div class="input-group">
@@ -147,6 +145,37 @@ $res_clubes = mysqli_query($conn, $query_clubes);
 
         <a href="index.php" class="back-link">← Volver al inicio</a>
     </div>
+
+    <script>
+        // Escuchamos cuando se envía el formulario
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Si el backend nos regresa con ?status=success
+        if (urlParams.get('status') === 'success') {
+            Swal.fire({
+                title: '¡Registro Exitoso!',
+                text: 'Tus datos han sido guardados correctamente.',
+                icon: 'success',
+                confirmButtonColor: '#B30000',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Limpiamos la URL para que no salga el mensaje otra vez al recargar
+                    window.location.href = 'registrar.php';
+                }
+            });
+        }
+
+        // Si el backend nos regresa con ?status=error
+        if (urlParams.get('status') === 'error') {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se pudo completar el registro. Intenta de nuevo.',
+                icon: 'error',
+                confirmButtonColor: '#B30000'
+            });
+        }
+    </script>
 
 </body>
 
