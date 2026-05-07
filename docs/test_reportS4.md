@@ -1,15 +1,15 @@
 =========================================
 Qa/Test Report S4
-========================================
+=====================================
 
 ### objetivo 
 Este informe documenta las actividades de prueba realizados sobre el codigo del proyecto y su funcionalidad y fiabilidad realizando a su vez correcciones a los bugs encontrados en el sprint anterior(Sprint3)
------------------------------------------------
+
 
 ### resumen de pruebas
-[x] diseñar y ejecutar casos de prueba presentados en el sprint3
-[x] identificar y corregir errores detallados en el sprint3
-[x] forzar errores de usuario
+    [x] diseñar y ejecutar casos de prueba presentados en el sprint3
+    [x] identificar y corregir errores detallados en el sprint3
+    [x] forzar errores de usuario
 
 ### casos de prueba ejecutados 
 
@@ -26,7 +26,7 @@ CP-001: Registro de Usuario Exitoso:
 
     Estado: PASA 
 
-    Evidencia: [Enlace a captura/logs];
+    Evidencia: [https://github.com/bandianvielma23isc-stack/school-proyect-/blob/documentacion/imagenes_sprint2/Pantalla1.jpeg];
 
 
 CP-002: Credenciales inválidas al iniciar sesión:
@@ -42,7 +42,7 @@ CP-002: Credenciales inválidas al iniciar sesión:
 
     Estado: PASA 
 
-    Evidencia: [Enlace a imagen de validación];
+    Evidencia: [https://github.com/bandianvielma23isc-stack/school-proyect-/blob/documentacion/imagenes_sprint2/Pantalla1.jpeg];
 
 
 CP-003: Campo obligatorio vacío en registro:
@@ -74,7 +74,7 @@ CP-004: Seguridad de acceso al Dashboard de Admin:
 
     Estado: PASA 
 
-    Evidencia: [Commits] ;
+    Evidencia: en proceso de subir ;
 
 
 CP-005: Botón 'Regresar' en Registro de Alumno:
@@ -96,29 +96,29 @@ CP-005: Botón 'Regresar' en Registro de Alumno:
 BUG-01 
 descricion:
     el campo nombre permitia registrar campos vacios y con caracteres extraños
----
+
 gravedad:
     media 
----
+
 estado:
     SOLUCIONADO 
---- 
+ 
 validacion de la solucion:
     se corrigio el archivo php colocando multiples condiciones al insertar los datos en el archivo
----
+
 
 
 BUG-02
 descripcion:
     el boton regresar de la pagina 'registrar alumno' regresa a la pagina inicial no a la anterior
----
+
 gravedad: 
     baja 
----
+
 estado: 
     SOLUCIONADO
----
+
 validacion de la solucion:
     se modifico el archivo 'registro.php' y se coloco una condicion en caso de ser alumno/admin se regresara a la pagina anterior correspondiente
----
+
 
