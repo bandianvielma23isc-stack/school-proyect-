@@ -74,7 +74,7 @@ CP-004: Seguridad de acceso al Dashboard de Admin:
 
     Estado: PASA 
 
-    Evidencia: en proceso de subir ;
+    Evidencia: https://trello.com/1/cards/69f93c4553c1583642b7676f/attachments/69f93cc0169105064fb327af/download/IMG-20260504-WA0068.jpg ;
 
 
 CP-005: Botón 'Regresar' en Registro de Alumno:
