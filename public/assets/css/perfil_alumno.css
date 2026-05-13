@@ -1,0 +1,121 @@
+/* =============================================
+   PERFIL_ALUMNO.CSS - perfil_alumno.php
+   ============================================= */
+
+body {
+    background-color: #f0f2f5;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 25px;
+    max-width: 1100px;
+    width: 100%;
+}
+
+.card-user {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: var(--sombra);
+    border-top: 5px solid var(--rojo-tec);
+}
+
+.card-user h2 {
+    margin: 10px 0 5px;
+    color: #1a1a1a;
+    font-size: 1.4rem;
+}
+
+.card-user p {
+    color: #555;
+    font-size: 14px;
+    margin: 4px 0;
+}
+
+.circle-avatar {
+    width: 100px;
+    height: 100px;
+    background: var(--rojo-tec);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+}
+
+.logout {
+    color: var(--rojo-tec);
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    transition: color 0.2s;
+}
+
+.logout:hover {
+    color: var(--rojo-oscuro);
+}
+
+.club-banner {
+    background: var(--rojo-tec);
+    color: white;
+    border-radius: var(--radius-lg);
+    padding: 30px 40px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 20px rgba(179, 0, 0, 0.2);
+}
+
+.club-banner h1 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.club-banner p {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.team-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: var(--sombra);
+    border-top: 5px solid var(--rojo-tec);
+}
+
+.team-card h3 {
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    font-size: 1.1rem;
+}
+
+.team-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.team-table th {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 2px solid #f0f0f0;
+    font-size: 13px;
+    color: #333;
+}
+
+.team-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #f8f8f8;
+    color: #555;
+    font-size: 14px;
+}

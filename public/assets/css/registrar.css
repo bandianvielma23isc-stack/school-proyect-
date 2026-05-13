@@ -1,0 +1,64 @@
+/* =============================================
+   REGISTRAR.CSS - registrar.php
+   ============================================= */
+
+body {
+    background-color: #e9e9e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-card {
+    background-color: white;
+    width: 420px;
+    padding: 35px;
+    border-radius: var(--radius-md);
+    border-top: 8px solid var(--rojo-tec);
+    box-shadow: var(--sombra);
+    text-align: center;
+}
+
+.form-card .logo-tec {
+    width: 100px;
+    margin-bottom: 15px;
+}
+
+.form-card h2 {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.btn-enviar {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--rojo-tec);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-enviar:hover {
+    background-color: var(--rojo-oscuro);
+}

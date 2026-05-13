@@ -12,12 +12,12 @@ $password_correcto = "TECSP";
 if ($usuario_ingresado === $usuario_correcto && $password_ingresado === $password_correcto) {
     // Si coinciden, creamos la sesión y mandamos al panel oscuro
     $_SESSION['admin_auth'] = "Administrador";
-    header("Location: ../fronted/admin.php");
+    header("Location: ../public/admin.php");
     exit();
 } else {
     // Si fallan, mandamos una alerta y regresamos al login
     echo "<script>
             alert('Usuario o Contraseña de Administrador Incorrectos');
-            window.location='../fronted/login.php';
+            window.location='../public/login.php';
           </script>";
 }

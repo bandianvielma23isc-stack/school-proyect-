@@ -1,0 +1,76 @@
+/* =============================================
+   INDEX.CSS - index.php y opciones_alumno.php
+   ============================================= */
+
+body {
+    background-color: var(--fondo-gris);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.logo-tec {
+    width: 220px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #1a1a1a;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    gap: 30px;
+}
+
+.card {
+    background: #ffffff;
+    width: 220px;
+    padding: 40px 20px;
+    border-radius: var(--radius-xl);
+    text-align: center;
+    text-decoration: none;
+    box-shadow: var(--sombra);
+    transition: transform 0.3s;
+    border-bottom: 8px solid var(--rojo-tec);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.card h2 {
+    margin: 10px 0 5px;
+    color: var(--rojo-tec);
+    font-size: 1.5rem;
+}
+
+.card p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.btn-regresar {
+    margin-top: 40px;
+    color: #888;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btn-regresar:hover {
+    color: #555;
+}

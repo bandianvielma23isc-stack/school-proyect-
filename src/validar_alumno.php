@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexion.php';
+include '../config/conexion.php';
 
 if (isset($_POST['matricula'])) {
     $matricula = mysqli_real_escape_string($conn, $_POST['matricula']);
@@ -12,10 +12,10 @@ if (isset($_POST['matricula'])) {
         $_SESSION['alumno_matricula'] = $datos['matricula'];
         $_SESSION['alumno_nombre'] = $datos['nombre'];
 
-        // Corregido a fronted
-        header("Location: ../fronted/perfil_alumno.php");
+      
+        header("Location: ../public/perfil_alumno.php");
         exit();
     } else {
-        echo "<script>alert('Matrícula no encontrada'); window.location='../fronted/login_alumno.php';</script>";
+        echo "<script>alert('Matrícula no encontrada'); window.location='../public/login_alumno.php';</script>";
     }
 }
