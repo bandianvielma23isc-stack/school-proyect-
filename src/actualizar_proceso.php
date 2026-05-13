@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'conexion.php';
+include '../config/conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['admin_auth'])) {
     $id = $_POST['id'];
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['admin_auth'])) {
     $sql = "UPDATE alumnos SET nombre='$nombre', apellidos='$apellidos', matricula='$matricula', carrera='$carrera', club_id='$club_id' WHERE id='$id'";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: ../fronted/admin.php");
+        header("Location: ../public/admin.php");
     } else {
         echo "Error: " . mysqli_error($conn);
     }

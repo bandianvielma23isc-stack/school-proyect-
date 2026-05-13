@@ -2,5 +2,5 @@
 session_start();
 session_destroy();
 // Corregido a fronted
-header("Location: ../fronted/index.php");
+header("Location: ../public/index.php");
 exit();

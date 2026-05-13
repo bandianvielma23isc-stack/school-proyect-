@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../config/conexion.php';
 
 $nombre = $_POST['nombre'];
 $apellidos = $_POST['apellidos'];
@@ -12,8 +12,8 @@ $query = "INSERT INTO alumnos (nombre, apellidos, matricula, carrera, club_id)
 
 if (mysqli_query($conn, $query)) {
     // Redirigir con mensaje de éxito
-    header("Location: ../fronted/registrar.php?status=success");
+    header("Location: ../public/registrar.php?status=success");
 } else {
     // Redirigir con mensaje de error
-    header("Location: ../fronted/registrar.php?status=error");
+    header("Location: ../public/registrar.php?status=error");
 }

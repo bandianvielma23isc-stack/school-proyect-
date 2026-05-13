@@ -1,0 +1,133 @@
+/* =============================================
+   ADMIN.CSS - admin.php y vista_clubes.php
+   ============================================= */
+
+body {
+    background-color: var(--fondo-oscuro);
+    color: var(--texto-claro);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* --- Sidebar --- */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid var(--borde);
+    flex-shrink: 0;
+}
+
+.sidebar .logo-tec {
+    width: 140px;
+    margin-bottom: 40px;
+    align-self: center;
+}
+
+.nav-link {
+    color: var(--texto-gris);
+    text-decoration: none;
+    padding: 15px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    border-left: 4px solid transparent;
+    transition: all 0.3s;
+}
+
+.nav-link:hover {
+    color: white;
+    background: #2a2a2a;
+}
+
+.nav-link.active {
+    background: #333;
+    color: white;
+    border-left: 4px solid var(--rojo-tec);
+}
+
+/* --- Contenido principal --- */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.main-content h1 {
+    font-size: 28px;
+    border-left: 6px solid var(--rojo-tec);
+    padding-left: 20px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+/* --- Tabla --- */
+.table-container {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--borde);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: var(--rojo-tec);
+    color: var(--texto-claro);
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 12px;
+    text-align: left;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid var(--borde);
+    color: var(--texto-muted);
+    font-size: 13px;
+}
+
+.m-text {
+    color: var(--rojo-tec);
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.btn-edit {
+    color: #3498db;
+    text-decoration: none;
+    border: 1px solid #3498db;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    margin-right: 5px;
+    font-size: 11px;
+    transition: all 0.2s;
+}
+
+.btn-edit:hover {
+    background: #3498db;
+    color: white;
+}
+
+.btn-delete {
+    color: #e74c3c;
+    text-decoration: none;
+    border: 1px solid #e74c3c;
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    transition: all 0.2s;
+}
+
+.btn-delete:hover {
+    background: #e74c3c;
+    color: white;
+}

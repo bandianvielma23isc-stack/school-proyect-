@@ -1,26 +1,27 @@
-# **Nombre del proyecto: Club Manager Escolar (CME)**
+Diseño (aportación)
 
-## Descripcion del proyecto: 
-**El administrador tiene software para agregar/manejar clubes, pero el quiere algo mas eficiente.
-Desea que el software que use permite a los alumnos registrarse a un club con un enlace QR;
-tambien desea poder filtrar alumnos, debido a que la forma actual de hacerlo solo es con 
-la matricula y es un tanto tedioso de hacer.**
+- Interfaz clara y fácil de usar
+- Colores amigables para estudiantes
+- Uso de QR para registro rápido
 
-## Usuario:
-**Encargado de extraescolares.**
 
-## Estado del proyecto:
-**Inicializacion y organizacion de roles.**
+Flujo de navegación
 
-## Tipo de sistema:
-**Web**
+- Pantalla de inicio
+- Login / Registro
+- Selección de club
+- Confirmación de registro
 
-## Equipo y Roles:
-**-Bryan: Dev Lider  
--Bandian: Coordinador  
--Alejandro: Diseñador  
--Oliver: Analista  
--Diego: Tester**
+El usuario debe poder avanzar fácilmente entre pantallas mediante botones claros.
 
-## Alcance del proyecto:
-**Desarrollar una plataforma web integral para la digitalizacion del registro de alumnos en clubes deportivos y culturales. El sistema permitira la clasificacion de actividades, validacion por matricula, busqueda dinamica por nombre y la generacion de reportes administrativos, eliminando la dependencia de procesos manuales.**
+Mejora de interfaz
+
+- Botones visibles y entendibles
+- Formularios simples y funcionales
+- Diseño limpio y organizado
+
+Formulario de usuario
+
+-Registrar sus datos
+-Elegir su carrera
+-Obtener una cuenta

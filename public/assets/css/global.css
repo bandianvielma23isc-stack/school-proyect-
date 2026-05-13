@@ -1,0 +1,83 @@
+/* =============================================
+   GLOBAL.CSS - Estilos compartidos del sistema
+   TEC San Pedro - Gestión de Clubes
+   ============================================= */
+
+:root {
+    --rojo-tec: #B30000;
+    --rojo-oscuro: #800000;
+    --fondo-gris: #e0e0e0;
+    --fondo-oscuro: #0c0c0c;
+    --sidebar-bg: #141414;
+    --card-bg: #1a1a1a;
+    --borde: #222;
+    --texto-claro: #ffffff;
+    --texto-gris: #888;
+    --texto-muted: #ccc;
+    --sombra: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --sombra-fuerte: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 20px;
+    --radius-xl: 25px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.logo-tec {
+    width: 140px;
+    margin-bottom: 40px;
+    align-self: center;
+}
+
+.btn-logout {
+    background: var(--rojo-tec);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    margin-top: auto;
+    font-weight: bold;
+    border-radius: var(--radius-sm);
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: var(--rojo-oscuro);
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus {
+    border-color: var(--rojo-tec);
+}
+
+.back-link {
+    display: block;
+    margin-top: 20px;
+    color: var(--texto-gris);
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.back-link:hover {
+    color: #555;
+}

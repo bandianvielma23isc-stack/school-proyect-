@@ -1,0 +1,78 @@
+/* =============================================
+   VISTA_CLUBES.CSS - vista_clubes.php
+   ============================================= */
+
+.club-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 25px;
+}
+
+.card-club {
+    background: #181818;
+    border: 1px solid var(--borde);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.card-club:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.card-header-red {
+    background: var(--rojo-tec);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.club-name {
+    margin: 0;
+    font-size: 18px;
+    color: var(--texto-claro);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+.card-body small {
+    color: var(--texto-gris);
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.student-list {
+    display: none;
+    background: #111;
+    border-top: 1px solid var(--borde);
+}
+
+.student-list.show {
+    display: block;
+}
+
+.student-row {
+    display: flex;
+    padding: 10px 25px;
+    font-size: 13px;
+    border-bottom: 1px solid #1a1a1a;
+    align-items: center;
+}
+
+.student-row:last-child {
+    border-bottom: none;
+}
+
+.col-mat {
+    color: var(--rojo-tec);
+    font-weight: bold;
+    width: 120px;
+    font-family: monospace;
+}

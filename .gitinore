@@ -1,0 +1,24 @@
+# Variables de entorno
+.env
+
+# Dependencias
+/vendor/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs y caché
+*.log
+/var/
+
+# Configuración de editores
+.vscode/
+.idea/
+
+# Archivos temporales PHP
+*.tmp
+
+# Windows
+Thumbs.db
+desktop.ini
