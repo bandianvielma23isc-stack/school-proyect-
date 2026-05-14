@@ -1,9 +1,9 @@
-=========================================
+
 Qa/Test Report S4
-=====================================
+=================
 
 ### objetivo 
-Este informe documenta las actividades de prueba realizados sobre el codigo del proyecto y su funcionalidad y fiabilidad realizando a su vez correcciones a los bugs encontrados en el sprint anterior(Sprint3)
+Este informe documenta las actividades de prueba realizados sobre el codigo del proyecto y su funcionalidad y fiabilidad realizando a su vez correcciones a los bugs encontrados en el sprint anterior(Sprint3).
 
 
 ### resumen de pruebas
@@ -24,7 +24,7 @@ CP-001: Registro de Usuario Exitoso:
 
     Resultado Real: Cuenta creada y redirección a perfil completada.
 
-    Estado: PASA 
+    Estado: CORRECTO
 
     Evidencia: [https://github.com/bandianvielma23isc-stack/school-proyect-/blob/documentacion/imagenes_sprint2/Pantalla1.jpeg];
 
@@ -40,7 +40,7 @@ CP-002: Credenciales inválidas al iniciar sesión:
 
     Resultado Real: Mensaje de error de validación mostrado correctamente.
 
-    Estado: PASA 
+    Estado: CORRECTO
 
     Evidencia: [https://github.com/bandianvielma23isc-stack/school-proyect-/blob/documentacion/imagenes_sprint2/Pantalla1.jpeg];
 
@@ -56,7 +56,7 @@ CP-003: Campo obligatorio vacío en registro:
 
     Resultado Real: No se muestra error y el formulario se envía con datos incompletos.
 
-    Estado: FALLA 
+    Estado: CORREGIDO
 
     Referencia: BUG-01;
 
@@ -72,7 +72,7 @@ CP-004: Seguridad de acceso al Dashboard de Admin:
 
     Resultado Real: No se permite el paso al dashboard sin las credenciales correspondientes.
 
-    Estado: PASA 
+    Estado: CORRECTO
 
     Evidencia: https://trello.com/1/cards/69f93c4553c1583642b7676f/attachments/69f93cc0169105064fb327af/download/IMG-20260504-WA0068.jpg ;
 
@@ -88,37 +88,39 @@ CP-005: Botón 'Regresar' en Registro de Alumno:
 
     Resultado Real: Redirige erróneamente a la página principal del sitio.
 
-    Estado: FALLA 
+    Estado: CORREGIDO
 
     Referencia: BUG-02 ;
 
+    
+
 ### reporte de errores y validacion de correciones 
 BUG-01 
-descricion:
+Descricion:
     el campo nombre permitia registrar campos vacios y con caracteres extraños
 
-gravedad:
+Gravedad:
     media 
 
-estado:
+Estado:
     SOLUCIONADO 
  
-validacion de la solucion:
+Validacion de la solucion:
     se corrigio el archivo php colocando multiples condiciones al insertar los datos en el archivo
 
 
 
 BUG-02
-descripcion:
+Descripcion:
     el boton regresar de la pagina 'registrar alumno' regresa a la pagina inicial no a la anterior
 
-gravedad: 
+Gravedad: 
     baja 
 
-estado: 
+Estado: 
     SOLUCIONADO
 
-validacion de la solucion:
+Validacion de la solucion:
     se modifico el archivo 'registro.php' y se coloco una condicion en caso de ser alumno/admin se regresara a la pagina anterior correspondiente
 
 
