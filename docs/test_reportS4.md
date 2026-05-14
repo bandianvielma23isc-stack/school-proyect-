@@ -56,7 +56,7 @@ CP-003: Campo obligatorio vacío en registro:
 
     Resultado Real: No se muestra error y el formulario se envía con datos incompletos.
 
-    Estado: CORRECTO
+    Estado: CORREGIDO
 
     Referencia: BUG-01;
 
@@ -88,13 +88,15 @@ CP-005: Botón 'Regresar' en Registro de Alumno:
 
     Resultado Real: Redirige erróneamente a la página principal del sitio.
 
-    Estado: CORRECTO
+    Estado: CORREGIDO
 
     Referencia: BUG-02 ;
 
+    
+
 ### reporte de errores y validacion de correciones 
 BUG-01 
-descricion:
+Descricion:
     el campo nombre permitia registrar campos vacios y con caracteres extraños
 
 Gravedad:
