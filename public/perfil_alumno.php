@@ -2,6 +2,11 @@
 session_start();
 include '../config/conexion.php';
 
+// --- EVITAR CACHÉ DEL NAVEGADOR ---
+header("Cache-Control: no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+
 // Solo alumno logueado puede entrar
 if (!isset($_SESSION['alumno_matricula'])) {
     // Si hay sesión de admin, destruirla antes de pedir login de alumno
@@ -42,6 +47,7 @@ $maestros = [
     <link rel="stylesheet" href="assets/css/perfil_alumno.css">
 </head>
 <body>
+
     <div class="dashboard">
         <div class="card-user">
             <div class="circle-avatar"><?= $iniciales ?></div>
@@ -76,5 +82,13 @@ $maestros = [
             </div>
         </div>
     </div>
+
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                window.location.href = "../src/logout.php";
+            }
+        });
+    </script>
 </body>
 </html>
