@@ -48,14 +48,16 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                     type="text"
                     name="matricula"
                     placeholder="Ej: 221000150"
-                    pattern="[0-9]+"
-                    title="Solo se permiten números"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                    pattern="[0-9]{9}"
+                    maxlength="9"
+                    title="La matrícula debe tener exactamente 9 dígitos numéricos"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9)"
                     required>
             </div>
             <div class="input-group">
                 <label>Carrera:</label>
                 <select name="carrera" required>
+                    <option value="" disabled selected>Selecciona una carrera</option>
                     <option value="Sistemas Computacionales">Sistemas Computacionales</option>
                     <option value="Industrial">Industrial</option>
                     <option value="Logística">Logística</option>
@@ -65,15 +67,18 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
             <div class="input-group">
                 <label>¿A qué club quieres pertenecer?</label>
                 <select name="club_id" required>
-                    <?php while ($c = mysqli_fetch_array($res_clubes)): ?>
-                        <option value="<?= $c['id'] ?>"><?= strtoupper($c['nombre_club']) ?></option>
+                    <option value="" disabled selected>Selecciona un club</option>
+                    <?php while ($c = mysqli_fetch_array($res_clubes)): 
+                        // Convierte el texto de la base de datos a "Tipo Título" (Primera Letra Mayúscula De Cada Palabra)
+                        $nombre_formateado = mb_convert_case($c['nombre_club'], MB_CASE_TITLE, "UTF-8");
+                    ?>
+                        <option value="<?= $c['id'] ?>"><?= $nombre_formateado ?></option>
                     <?php endwhile; ?>
                 </select>
             </div>
             <button type="submit" class="btn-enviar">Enviar Registro</button>
         </form>
 
-        <!-- Link inteligente según quién esté usando el formulario -->
         <?php if (isset($_SESSION['admin_auth'])): ?>
             <a href="admin.php" class="back-link">← Volver al Dashboard</a>
         <?php else: ?>
