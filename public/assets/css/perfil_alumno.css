@@ -4,7 +4,7 @@
 
 body {
     background-color: #f0f2f5;
-    padding: 40px;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
 }
@@ -24,6 +24,7 @@ body {
     text-align: center;
     box-shadow: var(--sombra);
     border-top: 5px solid var(--rojo-tec);
+    height: fit-content;
 }
 
 .card-user h2 {
@@ -92,6 +93,7 @@ body {
     padding: 30px;
     box-shadow: var(--sombra);
     border-top: 5px solid var(--rojo-tec);
+    overflow-x: auto;
 }
 
 .team-card h3 {
@@ -103,6 +105,7 @@ body {
 .team-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 300px;
 }
 
 .team-table th {
@@ -118,4 +121,50 @@ body {
     border-bottom: 1px solid #f8f8f8;
     color: #555;
     font-size: 14px;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 850px) {
+    body {
+        padding: 20px 15px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .card-user {
+        padding: 25px 20px;
+    }
+
+    .club-banner {
+        padding: 20px 25px;
+    }
+
+    .club-banner h1 {
+        font-size: 1.4rem;
+    }
+
+    .team-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .circle-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 28px;
+    }
+
+    .card-user h2 {
+        font-size: 1.2rem;
+    }
+
+    .club-banner h1 {
+        font-size: 1.2rem;
+    }
 }

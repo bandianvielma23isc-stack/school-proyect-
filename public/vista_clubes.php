@@ -1,14 +1,26 @@
 <?php
 session_start();
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 include '../config/conexion.php';
 
 if (!isset($_SESSION['admin_auth'])) {
-    if (isset($_SESSION['alumno_matricula'])) {
-        session_destroy();
-    }
+    if (isset($_SESSION['alumno_matricula'])) session_destroy();
     header("Location: login.php");
     exit();
 }
+
+$maestros = [
+    'Norteño'       => 'Lic. Javier Solís',
+    'Ajedrez'       => 'Ing. Alicia Méndez',
+    'Fútbol'        => 'Coach Fernando Hierro',
+    'Danza'         => 'Lic. Carmen Vega',
+    'Tiro con Arco' => 'Lic. Roberto Garza',
+    'Rondalla'      => 'Mtro. Héctor Luna',
+    'Basketball'    => 'Coach Daniela Reyes',
+    'Voleiball'     => 'Lic. Patricia Morales'
+];
 
 $res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as inscritos 
                                     FROM clubes c 
@@ -25,6 +37,13 @@ $res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as in
     <link rel="stylesheet" href="assets/css/vista_clubes.css">
 </head>
 <body>
+    <script>
+    // Evitar regreso con botón atrás después de cerrar sesión
+    window.history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function() {
+        window.history.pushState(null, null, window.location.href);
+    });
+</script>
 
     <?php $activePage = 'clubes'; include '../templates/sidebar.php'; ?>
 
@@ -34,29 +53,47 @@ $res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as in
             <?php while ($c = mysqli_fetch_array($res_clubes)):
                 $id_club = $c['id'];
                 $nom_raw = strtoupper($c['nombre_club']);
+                $maestro = $maestros[$c['nombre_club']] ?? 'Por asignar';
                 $al_q = mysqli_query($conn, "SELECT nombre, apellidos, matricula 
                                              FROM alumnos WHERE club_id = '$id_club'");
             ?>
                 <div class="card-club" onclick="this.querySelector('.student-list').classList.toggle('show')">
                     <div class="card-header-red">
-                        <h2 class="club-name"><?= $nom_raw ?></h2>
+                        <div>
+                            <h2 class="club-name"><?= $nom_raw ?></h2>
+                            <small class="maestro-nombre"> <?= $maestro ?></small>
+                        </div>
                         <span><?= $c['inscritos'] ?> INSCRITOS</span>
                     </div>
                     <div class="card-body">
-                        <small>Taller deportivo/cultural</small>
+                        <small>▼ Ver alumnos inscritos</small>
                     </div>
                     <div class="student-list">
-                        <?php while ($al = mysqli_fetch_array($al_q)): ?>
-                            <div class="student-row">
-                                <span class="col-mat"><?= $al['matricula'] ?></span>
-                                <span><?= $al['nombre'] ?> <?= $al['apellidos'] ?></span>
+                        <?php if (mysqli_num_rows($al_q) === 0): ?>
+                            <div class="student-row" style="color:#555; font-style:italic;">
+                                Sin alumnos inscritos
                             </div>
-                        <?php endwhile; ?>
+                        <?php else: ?>
+                            <?php while ($al = mysqli_fetch_array($al_q)): ?>
+                                <div class="student-row">
+                                    <span class="col-mat"><?= $al['matricula'] ?></span>
+                                    <span style="flex:1"><?= $al['nombre'] ?> <?= $al['apellidos'] ?></span>
+                                </div>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endwhile; ?>
         </div>
     </div>
+    <script>
+    // Si la página se carga desde caché sin sesión, redirigir
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+            window.location.reload();
+        }
+    });
+</script>
 
 </body>
 </html>

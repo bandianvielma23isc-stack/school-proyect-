@@ -1,13 +1,13 @@
 <?php
 session_start();
+
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 include '../config/conexion.php';
 
-// Solo alumno logueado puede entrar
 if (!isset($_SESSION['alumno_matricula'])) {
-    // Si hay sesión de admin, destruirla antes de pedir login de alumno
-    if (isset($_SESSION['admin_auth'])) {
-        session_destroy();
-    }
+    if (isset($_SESSION['admin_auth'])) session_destroy();
     header("Location: login_alumno.php");
     exit();
 }
@@ -27,24 +27,40 @@ $res_comp = mysqli_query($conn, "SELECT nombre, apellidos, carrera FROM alumnos
                                  WHERE club_id = '$club_id' AND matricula != '$matricula'");
 
 $maestros = [
-    'Norteño' => 'Lic. Javier Solís',
-    'Ajedrez' => 'Ing. Alicia Méndez',
-    'Fútbol'  => 'Coach Fernando Hierro',
-    'Danza'   => 'Lic. Carmen Vega'
+    'Norteño'       => 'Lic. Javier Solís',
+    'Ajedrez'       => 'Ing. Alicia Méndez',
+    'Fútbol'        => 'Coach Fernando Hierro',
+    'Danza'         => 'Lic. Carmen Vega',
+    'Tiro con Arco' => 'Lic. Roberto Garza',
+    'Rondalla'      => 'Mtro. Héctor Luna',
+    'Basketball'    => 'Coach Daniela Reyes',
+    'Voleiball'     => 'Lic. Patricia Morales'
 ];
+$maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - TEC San Pedro</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/perfil_alumno.css">
 </head>
 <body>
+    <script>
+    // Evitar regreso con botón atrás después de cerrar sesión
+    window.history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function() {
+        window.history.pushState(null, null, window.location.href);
+    });
+</script>
     <div class="dashboard">
         <div class="card-user">
-            <div class="circle-avatar"><?= $iniciales ?></div>
+            <div class="circle-avatar" id="avatarBtn" style="cursor:pointer;" title="Volver al inicio">
+                <?= $iniciales ?>
+            </div>
             <h2><?= $datos['nombre'] ?> <?= $datos['apellidos'] ?></h2>
             <p><strong>Matrícula:</strong> <?= $datos['matricula'] ?></p>
             <p><strong>Carrera:</strong> <?= $datos['carrera'] ?></p>
@@ -53,7 +69,7 @@ $maestros = [
         <div>
             <div class="club-banner">
                 <h1>Club: <?= $datos['nombre_club'] ?></h1>
-                <p>Maestro Encargado: <strong><?= $maestros[$datos['nombre_club']] ?? 'Por asignar' ?></strong></p>
+                <p>Maestro Encargado: <strong><?= $maestro ?></strong></p>
             </div>
             <div class="team-card">
                 <h3>Mis Compañeros</h3>
@@ -76,5 +92,32 @@ $maestros = [
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('avatarBtn').addEventListener('click', function() {
+            Swal.fire({
+                title: '¿Cerrar sesión?',
+                text: 'Se cerrará tu sesión y volverás al inicio.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#B30000',
+                cancelButtonColor: '#555',
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '../src/logout.php';
+                }
+            });
+        });
+    </script>
+    <script>
+    // Si la página se carga desde caché sin sesión, redirigir
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+            window.location.reload();
+        }
+    });
+</script>
 </body>
 </html>

@@ -8,14 +8,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .card {
     background: var(--card-bg);
     padding: 40px;
     border-radius: var(--radius-lg);
-    width: 400px;
+    width: 100%;
+    max-width: 420px;
     border-top: 5px solid var(--rojo-tec);
     box-shadow: var(--sombra-fuerte);
 }
@@ -39,6 +41,7 @@ body {
 .card input:focus,
 .card select:focus {
     border-color: var(--rojo-tec);
+    outline: none;
 }
 
 .card select option {
@@ -57,6 +60,7 @@ body {
     font-size: 15px;
     text-transform: uppercase;
     transition: background-color 0.3s;
+    margin-top: 5px;
 }
 
 .btn-save:hover {
@@ -75,4 +79,36 @@ body {
 
 .cancel-link:hover {
     color: #999;
+}
+
+.field-hint {
+    display: block;
+    font-size: 11px;
+    color: var(--texto-gris);
+    margin-top: 6px;
+    margin-bottom: 12px;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 480px) {
+    .card {
+        padding: 25px 18px;
+        border-radius: var(--radius-md);
+    }
+
+    .card h2 {
+        font-size: 1.2rem;
+    }
+
+    .btn-save {
+        font-size: 13px;
+        padding: 12px;
+    }
+
+    .cancel-link {
+        font-size: 13px;
+    }
 }

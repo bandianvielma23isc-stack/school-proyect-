@@ -8,7 +8,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .card {
@@ -22,7 +23,6 @@ body {
     border-top: 8px solid var(--rojo-tec);
 }
 
-/* login_alumno usa esta clase extra */
 .card.alumno {
     border-top: none;
     border-bottom: 12px solid var(--rojo-tec);
@@ -91,4 +91,33 @@ body {
 
 .btn-regresar:hover {
     color: #6b7280;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 480px) {
+    .card {
+        padding: 30px 20px;
+        border-radius: var(--radius-lg);
+    }
+
+    .card.alumno {
+        padding: 30px 20px;
+    }
+
+    .card h2 {
+        font-size: 1.4rem;
+    }
+
+    .card input {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .card button {
+        font-size: 14px;
+        padding: 12px;
+    }
 }

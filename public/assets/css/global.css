@@ -1,5 +1,5 @@
 /* =============================================
-   GLOBAL.CSS - Estilos compartidos del sistema
+   GLOBAL.CSS - Estilos compartidos + Responsive
    TEC San Pedro - Gestión de Clubes
    ============================================= */
 
@@ -30,6 +30,11 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 .logo-tec {
@@ -80,4 +85,14 @@ input:focus, select:focus {
 
 .back-link:hover {
     color: #555;
+}
+
+
+.field-hint {
+    display: block;
+    font-size: 11px;
+    color: var(--texto-gris);
+    margin-top: 6px;
+    margin-bottom: 12px;
+    text-align: left;
 }
