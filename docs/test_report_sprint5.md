@@ -14,12 +14,15 @@
 
 ## 1. Contexto de la Mejora
 
-Durante la revisión externa del 20 de mayo de 2026, el docente externo emitió observaciones sobre el sistema. El Dev Líder confirmó que los siguientes puntos fueron implementados en este sprint:
+Durante la revisión externa del 20 de mayo de 2026, el docente externo emitió observaciones sobre el sistema. Con base en el Análisis de Impacto elaborado por el Analista (Alejandro Hinojoza), las mejoras implementadas en este Sprint 5 son:
 
-- Validación de nombre: permite apóstrofo y manejo de mayúsculas
-- Carrera seleccionable y no predeterminada en formularios
-- Mejoras de caligrafía/tipografía general en la interfaz
-- En progreso: encriptación de contraseña en base de datos
+- **Barra de búsqueda** con filtro por nombre y carrera en la tabla de alumnos inscritos en clubes
+- **Corrección de sesiones** — el sistema no debe cerrar la sesión al presionar el botón "Regresar" del navegador
+- **Validación de nombres** — el buscador debe manejar correctamente acentos, mayúsculas y apóstrofos
+
+Las pantallas afectadas son:
+- Tabla general de alumnos inscritos en clubes
+- Menú del usuario común
 
 ---
 
@@ -27,113 +30,113 @@ Durante la revisión externa del 20 de mayo de 2026, el docente externo emitió 
 
 ---
 
-### CP-01 — Campo de nombre acepta apóstrofo
+### CP-01 — Barra de búsqueda filtra por nombre correctamente
 
 | Campo | Detalle |
 |---|---|
-| **Objetivo** | Verificar que el campo de nombre acepta correctamente caracteres con apóstrofo |
-| **Precondición** | El sistema está en el formulario de registro de alumno |
-| **Entrada** | Nombre con apóstrofo: `O'Brien`, `D'Angelo`, `Juan O'Farrill` |
-| **Resultado esperado** | El sistema acepta el nombre sin error y lo guarda correctamente |
+| **Objetivo** | Verificar que la barra de búsqueda filtra alumnos por nombre en tiempo real |
+| **Precondición** | Hay alumnos registrados e inscritos en clubes. La tabla de alumnos está visible |
+| **Entrada** | Escribir el nombre de un alumno existente en la barra de búsqueda |
+| **Resultado esperado** | La tabla muestra únicamente los alumnos cuyo nombre coincide con el texto ingresado |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 | **Evidencia** | _(captura de pantalla o descripción)_ |
 | **Error detectado** | _(si aplica)_ |
 | **Corrección aplicada** | _(si aplica)_ |
 
 ---
 
-### CP-02 — Campo de nombre acepta y maneja mayúsculas correctamente
+### CP-02 — Barra de búsqueda filtra nombres con acentos
 
 | Campo | Detalle |
 |---|---|
-| **Objetivo** | Verificar que el sistema maneja nombres en mayúsculas sin error |
-| **Precondición** | El sistema está en el formulario de registro de alumno |
-| **Entrada** | Nombre en mayúsculas: `JUAN PÉREZ`, `MARÍA LÓPEZ` |
-| **Resultado esperado** | El sistema acepta el nombre y lo muestra de forma consistente (sin truncarlo ni transformarlo incorrectamente) |
+| **Objetivo** | Verificar que el buscador maneja correctamente nombres con acentos |
+| **Precondición** | Existe un alumno con nombre acentuado registrado (ej. `María`, `Héctor`) |
+| **Entrada** | Escribir nombre con acento: `María`, `Héctor`, `José` |
+| **Resultado esperado** | La tabla filtra y muestra correctamente al alumno sin errores ni tabla en blanco |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 | **Evidencia** | _(captura de pantalla o descripción)_ |
 | **Error detectado** | _(si aplica)_ |
 | **Corrección aplicada** | _(si aplica)_ |
 
 ---
 
-### CP-03 — Caso de dato inválido: nombre con números o caracteres no permitidos
+### CP-03 — Barra de búsqueda filtra nombres con mayúsculas
 
 | Campo | Detalle |
 |---|---|
-| **Objetivo** | Verificar que el sistema rechaza nombres con caracteres inválidos |
-| **Precondición** | El sistema está en el formulario de registro |
-| **Entrada** | Nombre con números o símbolos: `Juan123`, `@@pedro`, `<script>` |
-| **Resultado esperado** | El sistema muestra un mensaje de error indicando que el nombre no es válido y no permite continuar |
+| **Objetivo** | Verificar que el buscador maneja correctamente nombres en mayúsculas |
+| **Precondición** | La barra de búsqueda está disponible en la tabla de alumnos |
+| **Entrada** | Escribir nombre en mayúsculas: `JUAN`, `PEDRO LÓPEZ` |
+| **Resultado esperado** | La tabla filtra y muestra correctamente los alumnos sin importar si se escribe en mayúsculas o minúsculas |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 | **Evidencia** | _(captura de pantalla o descripción)_ |
 | **Error detectado** | _(si aplica)_ |
 | **Corrección aplicada** | _(si aplica)_ |
 
 ---
 
-### CP-04 — Carrera seleccionable y no predeterminada en registro
+### CP-04 — Barra de búsqueda filtra nombres con apóstrofo
 
 | Campo | Detalle |
 |---|---|
-| **Objetivo** | Verificar que el campo de carrera no tiene valor predeterminado y obliga al usuario a seleccionar |
-| **Precondición** | El sistema está en el formulario de registro de alumno |
-| **Entrada** | Abrir el formulario sin tocar el campo de carrera e intentar enviar |
-| **Resultado esperado** | El campo de carrera aparece vacío o con placeholder (ej. "Selecciona tu carrera"). El sistema bloquea el envío si no se selecciona |
+| **Objetivo** | Verificar que el buscador maneja correctamente nombres con apóstrofo |
+| **Precondición** | La barra de búsqueda está disponible |
+| **Entrada** | Escribir nombre con apóstrofo: `O'Brien`, `D'Angelo` |
+| **Resultado esperado** | La tabla filtra correctamente sin generar error en la consulta SQL ni dejar la tabla en blanco |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 | **Evidencia** | _(captura de pantalla o descripción)_ |
 | **Error detectado** | _(si aplica)_ |
 | **Corrección aplicada** | _(si aplica)_ |
 
 ---
 
-### CP-05 — Todas las carreras disponibles aparecen en el selector
+### CP-05 — Filtro por carrera muestra alumnos correctos
 
 | Campo | Detalle |
 |---|---|
-| **Objetivo** | Verificar que el dropdown de carrera muestra todas las opciones correctamente |
-| **Precondición** | El sistema está en el formulario de registro |
-| **Entrada** | Hacer clic en el campo de carrera |
-| **Resultado esperado** | Se despliegan todas las carreras disponibles en el sistema y se puede seleccionar cualquiera |
+| **Objetivo** | Verificar que el filtro por carrera muestra únicamente los alumnos de esa carrera |
+| **Precondición** | Hay alumnos de diferentes carreras inscritos en clubes |
+| **Entrada** | Seleccionar una carrera específica en el filtro |
+| **Resultado esperado** | La tabla muestra solo los alumnos inscritos en esa carrera. No aparecen alumnos de otras carreras |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 | **Evidencia** | _(captura de pantalla o descripción)_ |
 | **Error detectado** | _(si aplica)_ |
 | **Corrección aplicada** | _(si aplica)_ |
 
 ---
 
-### CP-06 — Mejoras visuales y tipografía general aplicadas
+### CP-06 — Caso de dato inválido: búsqueda con caracteres especiales
 
 | Campo | Detalle |
 |---|---|
-| **Objetivo** | Verificar que las mejoras de caligrafía y tipografía son visibles y consistentes en toda la interfaz |
-| **Precondición** | El sistema está ejecutándose |
-| **Entrada** | Navegar por las pantallas principales: inicio, registro, login, lista de clubs, perfil de alumno |
-| **Resultado esperado** | Las fuentes, tamaños y estilos de texto son consistentes en todas las pantallas. No hay texto desbordado, cortado ni ilegible |
+| **Objetivo** | Verificar que el buscador no genera errores ni vulnerabilidades con caracteres especiales |
+| **Precondición** | La barra de búsqueda está disponible |
+| **Entrada** | Escribir caracteres especiales: `<script>`, `--`, `''`, `%` |
+| **Resultado esperado** | El sistema no genera error, no ejecuta código malicioso y simplemente muestra tabla vacía o sin coincidencias |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 | **Evidencia** | _(captura de pantalla o descripción)_ |
 | **Error detectado** | _(si aplica)_ |
 | **Corrección aplicada** | _(si aplica)_ |
 
 ---
 
-### CP-07 — Contraseña almacenada encriptada en la base de datos *(en progreso)*
+### CP-07 — Sesión no se cierra al presionar "Regresar" en el navegador
 
 | Campo | Detalle |
 |---|---|
-| **Objetivo** | Verificar que la contraseña del usuario no se almacena en texto plano en la BD |
-| **Precondición** | Se registra un nuevo alumno con contraseña conocida. Se tiene acceso a la BD para verificar |
-| **Entrada** | Registrar alumno con contraseña: `test1234` y revisar el valor guardado en la tabla de usuarios |
-| **Resultado esperado** | La contraseña en la BD aparece como hash encriptado (ej. `$2y$10$...`) y no como `test1234` |
-| **Resultado obtenido** | _(completar cuando el Dev finalice la implementación)_ |
-| **Estatus** | ⏳ En progreso — pendiente de implementación |
-| **Evidencia** | _(captura de la BD o descripción)_ |
+| **Objetivo** | Verificar que la sesión del usuario se mantiene activa al presionar el botón "Regresar" del navegador |
+| **Precondición** | El alumno ha iniciado sesión correctamente |
+| **Entrada** | Navegar a una pantalla y presionar el botón "Regresar" del navegador varias veces seguidas |
+| **Resultado esperado** | El sistema mantiene la sesión activa y no redirige al login ni cierra la sesión del usuario |
+| **Resultado obtenido** | _(completar al ejecutar)_ |
+| **Estatus** | ⬜ Pendiente |
+| **Evidencia** | _(captura de pantalla o descripción)_ |
 | **Error detectado** | _(si aplica)_ |
 | **Corrección aplicada** | _(si aplica)_ |
 
@@ -149,11 +152,11 @@ Verifican que los cambios del Sprint 5 **no rompieron funcionalidades que ya exi
 
 | Campo | Detalle |
 |---|---|
-| **Objetivo** | Confirmar que el flujo de registro sigue funcionando correctamente tras todos los cambios |
-| **Entrada** | Nombre con apóstrofo válido, correo único, contraseña, carrera seleccionada |
+| **Objetivo** | Confirmar que el flujo de registro sigue funcionando correctamente tras los cambios |
+| **Entrada** | Nombre válido, correo único, contraseña, carrera seleccionada |
 | **Resultado esperado** | El alumno queda registrado exitosamente y puede iniciar sesión |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 
 ---
 
@@ -165,7 +168,7 @@ Verifican que los cambios del Sprint 5 **no rompieron funcionalidades que ya exi
 | **Entrada** | Correo y contraseña de cuenta previamente registrada |
 | **Resultado esperado** | El sistema autentica al alumno y redirige a su pantalla principal |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 
 ---
 
@@ -177,7 +180,7 @@ Verifican que los cambios del Sprint 5 **no rompieron funcionalidades que ya exi
 | **Entrada** | Alumno autenticado navega a la sección de clubs |
 | **Resultado esperado** | Se muestran los clubs con su información correctamente |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 
 ---
 
@@ -189,7 +192,7 @@ Verifican que los cambios del Sprint 5 **no rompieron funcionalidades que ya exi
 | **Entrada** | Alumno autenticado selecciona un club y se inscribe |
 | **Resultado esperado** | La inscripción se registra y se refleja en el perfil del alumno |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 
 ---
 
@@ -201,7 +204,7 @@ Verifican que los cambios del Sprint 5 **no rompieron funcionalidades que ya exi
 | **Entrada** | Credenciales de administrador válidas |
 | **Resultado esperado** | El sistema autentica al administrador y redirige a su panel de control |
 | **Resultado obtenido** | _(completar al ejecutar)_ |
-| **Estatus** | ⬜ Pendiente / ✅ Aprobado / ❌ Fallido |
+| **Estatus** | ⬜ Pendiente |
 
 ---
 
@@ -233,8 +236,7 @@ Verifican que los cambios del Sprint 5 **no rompieron funcionalidades que ya exi
 
 **Justificación:**
 
-- Se ejecutaron ___ casos de prueba sobre las mejoras del Sprint 5 (validación de nombre, carrera seleccionable, tipografía).
-- El caso CP-07 (encriptación de contraseña) queda **condicionado** hasta que el Dev Líder finalice su implementación.
+- Se ejecutaron ___ casos de prueba sobre las mejoras del Sprint 5 (barra de búsqueda, filtro por carrera, manejo de nombres especiales y corrección de sesiones).
 - Las pruebas de no regresión confirman que el flujo principal _(funciona correctamente / presenta observaciones)_.
 - _(Agregar observaciones finales del QA)_
 
