@@ -21,7 +21,8 @@ if (isset($_SESSION['alumno_matricula'])) {
 </head>
 <body>
     <div class="card">
-        <img src="assets/img/logo_tec.png" class="logo-tec" alt="TEC San Pedro">
+        <img src="assets/img/logo_tec.png" class="logo-tec" alt="TEC San Pedro"
+        onclick="window.location.href='index.php'" style="cursor:pointer;">
         <h2>Panel Admin</h2>
         <form action="../src/validar_acceso.php" method="POST">
             <input type="text" name="usuario" placeholder="Usuario" required>

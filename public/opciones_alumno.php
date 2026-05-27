@@ -20,7 +20,8 @@ if (isset($_SESSION['admin_auth'])) {
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
-    <img src="assets/img/logo_tec.png" class="logo-tec" alt="TEC San Pedro">
+    <img src="assets/img/logo_tec.png" class="logo-tec" alt="TEC San Pedro"
+     onclick="window.location.href='index.php'" style="cursor:pointer;">
     <h1>¿Qué deseas hacer?</h1>
     <div class="container">
         <a href="login_alumno.php" class="card">

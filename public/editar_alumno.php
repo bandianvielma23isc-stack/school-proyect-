@@ -1,11 +1,12 @@
 <?php
 session_start();
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 include '../config/conexion.php';
 
 if (!isset($_SESSION['admin_auth']) || !isset($_GET['id'])) {
-    if (isset($_SESSION['alumno_matricula'])) {
-        session_destroy();
-    }
+    if (isset($_SESSION['alumno_matricula'])) session_destroy();
     header("Location: login.php");
     exit();
 }
@@ -19,42 +20,50 @@ $clubes = mysqli_query($conn, "SELECT * FROM clubes");
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Alumno - TEC San Pedro</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/editar_alumno.css">
 </head>
 <body>
+</script>
     <div class="card">
         <h2>Editar Alumno</h2>
-        <form action="../src/actualizar_proceso.php" method="POST">
+        <form action="../src/actualizar_proceso.php" method="POST" id="formEditar">
             <input type="hidden" name="id" value="<?= $al['id'] ?>">
             <input
                 type="text"
                 name="nombre"
+                id="nombre"
                 value="<?= $al['nombre'] ?>"
                 placeholder="Ej: Juan Carlos"
-                pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+"
-                title="Solo se permiten letras"
+                maxlength="30"
+                title="Solo letras, máximo 30 caracteres, sin letras repetidas 4 veces o más"
                 oninput="this.value = this.value.replace(/[^A-Za-zñÑáéíóúÁÉÍÓÚ\s]/g, '')"
                 required>
             <input
                 type="text"
                 name="apellidos"
+                id="apellidos"
                 value="<?= $al['apellidos'] ?>"
                 placeholder="Ej: García López"
-                pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+"
-                title="Solo se permiten letras"
+                maxlength="30"
+                title="Solo letras, máximo 30 caracteres, sin letras repetidas 4 veces o más"
                 oninput="this.value = this.value.replace(/[^A-Za-zñÑáéíóúÁÉÍÓÚ\s]/g, '')"
                 required>
             <input
                 type="text"
                 name="matricula"
                 value="<?= $al['matricula'] ?>"
-                placeholder="Ej: 221000150"
-                pattern="[0-9]+"
-                title="Solo se permiten números"
+                placeholder="Ej: 2210001500"
+                pattern="[0-9]{10}"
+                title="Exactamente 10 dígitos numéricos"
+                maxlength="10"
+                minlength="10"
                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                 required>
+            <small class="field-hint">Matrícula: exactamente 10 dígitos</small>
             <select name="carrera" required>
                 <option value="Sistemas Computacionales" <?= $al['carrera'] == 'Sistemas Computacionales' ? 'selected' : '' ?>>Sistemas Computacionales</option>
                 <option value="Industrial"               <?= $al['carrera'] == 'Industrial'               ? 'selected' : '' ?>>Industrial</option>
@@ -72,5 +81,46 @@ $clubes = mysqli_query($conn, "SELECT * FROM clubes");
             <a href="admin.php" class="cancel-link">← Cancelar y volver al Dashboard</a>
         </form>
     </div>
+
+    <script>
+        // Detecta si una letra se repite 4 o más veces en el valor
+        function tieneLetraRepetida(valor) {
+            return /([a-záéíóúñ])\1{3,}/i.test(valor);
+        }
+
+        document.getElementById('formEditar').addEventListener('submit', function(e) {
+            const nombre    = document.getElementById('nombre').value.trim();
+            const apellidos = document.getElementById('apellidos').value.trim();
+
+            if (nombre.length > 30) {
+                e.preventDefault();
+                Swal.fire({ title: 'Error', text: 'El nombre no puede tener más de 30 caracteres.', icon: 'error', confirmButtonColor: '#B30000' });
+                return;
+            }
+            if (apellidos.length > 30) {
+                e.preventDefault();
+                Swal.fire({ title: 'Error', text: 'Los apellidos no pueden tener más de 30 caracteres.', icon: 'error', confirmButtonColor: '#B30000' });
+                return;
+            }
+            if (tieneLetraRepetida(nombre)) {
+                e.preventDefault();
+                Swal.fire({ title: 'Nombre inválido', text: 'El nombre contiene una letra repetida 4 o más veces.', icon: 'error', confirmButtonColor: '#B30000' });
+                return;
+            }
+            if (tieneLetraRepetida(apellidos)) {
+                e.preventDefault();
+                Swal.fire({ title: 'Apellidos inválidos', text: 'Los apellidos contienen una letra repetida 4 o más veces.', icon: 'error', confirmButtonColor: '#B30000' });
+                return;
+            }
+        });
+    </script>
+    <script>
+    // Si la página se carga desde caché sin sesión, redirigir
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+            window.location.reload();
+        }
+    });
+</script>
 </body>
 </html>

@@ -9,6 +9,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Alumno - TEC San Pedro</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="assets/css/global.css">
@@ -16,7 +17,8 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
 </head>
 <body>
     <div class="form-card">
-        <img src="assets/img/logo_tec.png" class="logo-tec" alt="TEC San Pedro">
+        <img src="assets/img/logo_tec.png" class="logo-tec" alt="TEC San Pedro"
+             onclick="window.location.href='index.php'" style="cursor:pointer;">
         <h2>Registro de Alumno</h2>
 
         <form action="../src/guardar.php" method="POST" id="formRegistro">
@@ -25,35 +27,42 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                 <input
                     type="text"
                     name="nombre"
+                    id="nombre"
                     placeholder="Ej: Juan Carlos"
-                    pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+"
-                    title="Solo se permiten letras, sin números ni caracteres especiales"
+                    maxlength="30"
+                    title="Solo letras, máximo 30 caracteres, sin letras repetidas 4 veces o más"
                     oninput="this.value = this.value.replace(/[^A-Za-zñÑáéíóúÁÉÍÓÚ\s]/g, '')"
                     required>
             </div>
+            
             <div class="input-group">
                 <label>Apellidos:</label>
                 <input
                     type="text"
                     name="apellidos"
+                    id="apellidos"
                     placeholder="Ej: García López"
-                    pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+"
-                    title="Solo se permiten letras, sin números ni caracteres especiales"
+                    maxlength="30"
+                    title="Solo letras, máximo 30 caracteres, sin letras repetidas 4 veces o más"
                     oninput="this.value = this.value.replace(/[^A-Za-zñÑáéíóúÁÉÍÓÚ\s]/g, '')"
                     required>
             </div>
+            
             <div class="input-group">
                 <label>Matrícula:</label>
                 <input
                     type="text"
                     name="matricula"
-                    placeholder="Ej: 221000150"
-                    pattern="[0-9]{9}"
-                    maxlength="9"
-                    title="La matrícula debe tener exactamente 9 dígitos numéricos"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9)"
+                    placeholder="Ej: 2210001500"
+                    pattern="[0-9]{10}"
+                    title="La matrícula debe tener exactamente 10 dígitos numéricos"
+                    maxlength="10"
+                    minlength="10"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
                     required>
+                <small class="field-hint">Exactamente 10 dígitos</small>
             </div>
+            
             <div class="input-group">
                 <label>Carrera:</label>
                 <select name="carrera" required>
@@ -64,18 +73,20 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                     <option value="Gestión Empresarial">Gestión Empresarial</option>
                 </select>
             </div>
+            
             <div class="input-group">
                 <label>¿A qué club quieres pertenecer?</label>
                 <select name="club_id" required>
                     <option value="" disabled selected>Selecciona un club</option>
                     <?php while ($c = mysqli_fetch_array($res_clubes)): 
-                        // Convierte el texto de la base de datos a "Tipo Título" (Primera Letra Mayúscula De Cada Palabra)
+                        // Convierte el texto de la base de datos a "Tipo Título"
                         $nombre_formateado = mb_convert_case($c['nombre_club'], MB_CASE_TITLE, "UTF-8");
                     ?>
-                        <option value="<?= $c['id'] ?>"><?= $nombre_formateado ?></option>
+                        <option value="<?= htmlspecialchars($c['id']) ?>"><?= htmlspecialchars($nombre_formateado) ?></option>
                     <?php endwhile; ?>
                 </select>
             </div>
+            
             <button type="submit" class="btn-enviar">Enviar Registro</button>
         </form>
 
@@ -87,6 +98,38 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
     </div>
 
     <script>
+        // Detecta si una letra se repite 4 o más veces en el valor
+        function tieneLetraRepetida(valor) {
+            return /([a-záéíóúñ])\1{3,}/i.test(valor);
+        }
+
+        document.getElementById('formRegistro').addEventListener('submit', function(e) {
+            const nombre    = document.getElementById('nombre').value.trim();
+            const apellidos = document.getElementById('apellidos').value.trim();
+
+            if (nombre.length > 30) {
+                e.preventDefault();
+                Swal.fire({ title: 'Error', text: 'El nombre no puede tener más de 30 caracteres.', icon: 'error', confirmButtonColor: '#B30000' });
+                return;
+            }
+            if (apellidos.length > 30) {
+                e.preventDefault();
+                Swal.fire({ title: 'Error', text: 'Los apellidos no pueden tener más de 30 caracteres.', icon: 'error', confirmButtonColor: '#B30000' });
+                return;
+            }
+            if (tieneLetraRepetida(nombre)) {
+                e.preventDefault();
+                Swal.fire({ title: 'Nombre inválido', text: 'El nombre contiene una letra repetida 4 o más veces.', icon: 'error', confirmButtonColor: '#B30000' });
+                return;
+            }
+            if (tieneLetraRepetida(apellidos)) {
+                e.preventDefault();
+                Swal.fire({ title: 'Apellidos inválidos', text: 'Los apellidos contienen una letra repetida 4 o más veces.', icon: 'error', confirmButtonColor: '#B30000' });
+                return;
+            }
+        });
+
+        // Alertas de status mediante URL
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('status') === 'success') {
             Swal.fire({

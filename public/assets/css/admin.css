@@ -19,6 +19,7 @@ body {
     flex-direction: column;
     border-right: 2px solid var(--borde);
     flex-shrink: 0;
+    transition: width 0.3s;
 }
 
 .sidebar .logo-tec {
@@ -56,6 +57,7 @@ body {
     flex: 1;
     padding: 40px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .main-content h1 {
@@ -71,12 +73,13 @@ body {
     background: var(--sidebar-bg);
     border: 1px solid var(--borde);
     border-radius: var(--radius-sm);
-    overflow: hidden;
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 500px;
 }
 
 th {
@@ -86,6 +89,7 @@ th {
     text-transform: uppercase;
     font-size: 12px;
     text-align: left;
+    white-space: nowrap;
 }
 
 td {
@@ -110,6 +114,9 @@ td {
     margin-right: 5px;
     font-size: 11px;
     transition: all 0.2s;
+    white-space: nowrap;
+    display: inline-block;
+    margin-bottom: 4px;
 }
 
 .btn-edit:hover {
@@ -125,9 +132,88 @@ td {
     border-radius: var(--radius-sm);
     font-size: 11px;
     transition: all 0.2s;
+    white-space: nowrap;
+    display: inline-block;
 }
 
 .btn-delete:hover {
     background: #e74c3c;
     color: white;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+/* Tablet */
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+        height: auto;
+        overflow: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 15px;
+        border-right: none;
+        border-bottom: 2px solid var(--borde);
+        gap: 8px;
+    }
+
+    .sidebar .logo-tec {
+        width: 80px;
+        margin-bottom: 0;
+        align-self: center;
+    }
+
+    .nav-link {
+        padding: 10px 14px;
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+
+    .btn-logout {
+        margin-top: 0;
+        padding: 10px 14px;
+        font-size: 12px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .main-content h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Móvil */
+@media (max-width: 600px) {
+    .sidebar {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .nav-link {
+        font-size: 11px;
+        padding: 8px 10px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    td, th {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .btn-edit, .btn-delete {
+        padding: 4px 7px;
+        font-size: 10px;
+    }
 }

@@ -8,7 +8,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .logo-tec {
@@ -27,6 +28,8 @@ h1 {
 .container {
     display: flex;
     gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
@@ -73,4 +76,29 @@ h1 {
 
 .btn-regresar:hover {
     color: #555;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 600px) {
+    .logo-tec {
+        width: 160px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 300px;
+        padding: 30px 15px;
+    }
+
+    .icon {
+        font-size: 40px;
+    }
 }

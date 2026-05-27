@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 include '../config/conexion.php';
 
 // Solo admin puede entrar, si es alumno lo manda a su login
@@ -23,6 +27,13 @@ $res = mysqli_query($conn, "SELECT a.*, c.nombre_club FROM alumnos a JOIN clubes
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
+    <script>
+    // Evitar regreso con botón atrás después de cerrar sesión
+    window.history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function() {
+        window.history.pushState(null, null, window.location.href);
+    });
+</script>
 
     <?php $activePage = 'admin'; include '../templates/sidebar.php'; ?>
 
@@ -57,6 +68,14 @@ $res = mysqli_query($conn, "SELECT a.*, c.nombre_club FROM alumnos a JOIN clubes
             </table>
         </div>
     </div>
+    <script>
+    // Si la página se carga desde caché sin sesión, redirigir
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+            window.location.reload();
+        }
+    });
+</script>
 
 </body>
 </html>
