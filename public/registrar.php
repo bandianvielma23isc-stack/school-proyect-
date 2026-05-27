@@ -18,7 +18,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
 <body>
     <div class="form-card">
         <img src="assets/img/logo_tec.png" class="logo-tec" alt="TEC San Pedro"
-        onclick="window.location.href='index.php'" style="cursor:pointer;">
+             onclick="window.location.href='index.php'" style="cursor:pointer;">
         <h2>Registro de Alumno</h2>
 
         <form action="../src/guardar.php" method="POST" id="formRegistro">
@@ -34,6 +34,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                     oninput="this.value = this.value.replace(/[^A-Za-zñÑáéíóúÁÉÍÓÚ\s]/g, '')"
                     required>
             </div>
+            
             <div class="input-group">
                 <label>Apellidos:</label>
                 <input
@@ -46,6 +47,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                     oninput="this.value = this.value.replace(/[^A-Za-zñÑáéíóúÁÉÍÓÚ\s]/g, '')"
                     required>
             </div>
+            
             <div class="input-group">
                 <label>Matrícula:</label>
                 <input
@@ -53,30 +55,38 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                     name="matricula"
                     placeholder="Ej: 2210001500"
                     pattern="[0-9]{10}"
-                    title="Exactamente 10 dígitos numéricos"
+                    title="La matrícula debe tener exactamente 10 dígitos numéricos"
                     maxlength="10"
                     minlength="10"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
                     required>
                 <small class="field-hint">Exactamente 10 dígitos</small>
             </div>
+            
             <div class="input-group">
                 <label>Carrera:</label>
                 <select name="carrera" required>
+                    <option value="" disabled selected>Selecciona una carrera</option>
                     <option value="Sistemas Computacionales">Sistemas Computacionales</option>
                     <option value="Industrial">Industrial</option>
                     <option value="Logística">Logística</option>
                     <option value="Gestión Empresarial">Gestión Empresarial</option>
                 </select>
             </div>
+            
             <div class="input-group">
                 <label>¿A qué club quieres pertenecer?</label>
                 <select name="club_id" required>
-                    <?php while ($c = mysqli_fetch_array($res_clubes)): ?>
-                        <option value="<?= $c['id'] ?>"><?= strtoupper($c['nombre_club']) ?></option>
+                    <option value="" disabled selected>Selecciona un club</option>
+                    <?php while ($c = mysqli_fetch_array($res_clubes)): 
+                        // Convierte el texto de la base de datos a "Tipo Título"
+                        $nombre_formateado = mb_convert_case($c['nombre_club'], MB_CASE_TITLE, "UTF-8");
+                    ?>
+                        <option value="<?= htmlspecialchars($c['id']) ?>"><?= htmlspecialchars($nombre_formateado) ?></option>
                     <?php endwhile; ?>
                 </select>
             </div>
+            
             <button type="submit" class="btn-enviar">Enviar Registro</button>
         </form>
 
@@ -89,7 +99,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
 
     <script>
         // Detecta si una letra se repite 4 o más veces en el valor
-       function tieneLetraRepetida(valor) {
+        function tieneLetraRepetida(valor) {
             return /([a-záéíóúñ])\1{3,}/i.test(valor);
         }
 
@@ -119,7 +129,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
             }
         });
 
-        // Alertas de status
+        // Alertas de status mediante URL
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('status') === 'success') {
             Swal.fire({
