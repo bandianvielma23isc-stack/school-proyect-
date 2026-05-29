@@ -4,9 +4,9 @@
  * Sidebar reutilizable para las páginas de administrador.
  *
  * USO desde public/:
- *   <?php $activePage = 'admin'; include '../templates/sidebar.php'; ?>
+ * <?php $activePage = 'admin'; include '../templates/sidebar.php'; ?>
  *
- * Valores de $activePage: 'admin' | 'registrar' | 'clubes'
+ * Valores de $activePage: 'admin' | 'registrar' | 'insertar_maestro' | 'clubes'
  */
 ?>
 
@@ -26,9 +26,18 @@
         Insertar Alumno
     </a>
 
+    <a href="insertar_maestro.php"
+        class="nav-link <?= ($activePage === 'insertar_maestro') ? 'active' : '' ?>">
+        Insertar Profesor
+    </a>
+
     <a href="vista_clubes.php"
         class="nav-link <?= ($activePage === 'clubes') ? 'active' : '' ?>">
         Vista de Clubes
+    </a>
+    <a href="reportes.php"
+        class="nav-link <?= ($activePage === 'reportes') ? 'active' : '' ?>">
+        Reportes PDF
     </a>
 
     <a href="../src/logout.php" class="btn-logout">

@@ -1,10 +1,12 @@
 <?php
 session_start();
-if (isset($_SESSION['alumno_matricula'])) {
+
+if (isset($_SESSION['alumno_id'])) {
     header("Location: perfil_alumno.php");
     exit();
 }
-if (isset($_SESSION['admin_auth'])) {
+
+if (isset($_SESSION['admin_auth']) || isset($_SESSION['alumno_matricula'])) {
     session_destroy();
     session_start();
 }

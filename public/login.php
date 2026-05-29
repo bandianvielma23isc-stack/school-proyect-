@@ -1,11 +1,9 @@
 <?php
 session_start();
-// Si ya hay sesión de admin, redirigir directo al panel
 if (isset($_SESSION['admin_auth'])) {
     header("Location: admin.php");
     exit();
 }
-// Si hay sesión de alumno activa, cerrarla antes de entrar como admin
 if (isset($_SESSION['alumno_matricula'])) {
     session_destroy();
     session_start();

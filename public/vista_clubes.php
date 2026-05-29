@@ -38,7 +38,6 @@ $res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as in
 </head>
 <body>
     <script>
-    // Evitar regreso con botón atrás después de cerrar sesión
     window.history.pushState(null, null, window.location.href);
     window.addEventListener('popstate', function() {
         window.history.pushState(null, null, window.location.href);
@@ -87,7 +86,6 @@ $res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as in
         </div>
     </div>
     <script>
-    // Si la página se carga desde caché sin sesión, redirigir
     window.addEventListener('pageshow', function(e) {
         if (e.persisted) {
             window.location.reload();
