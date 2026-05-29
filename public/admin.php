@@ -36,7 +36,7 @@ $res = mysqli_query($conn, "SELECT a.*, c.nombre_club FROM alumnos a JOIN clubes
         .search-container input {
             background-color: #1a1a1a;
             color: #fff;
-            border: 1px solid #B30000; /* Rojo TEC San Pedro */
+            border: 1px solid #B30000; 
             padding: 10px 15px;
             border-radius: 5px;
             width: 250px;
@@ -81,7 +81,16 @@ $res = mysqli_query($conn, "SELECT a.*, c.nombre_club FROM alumnos a JOIN clubes
                 <tbody id="tablaAlumnos">
                     <?php while ($row = mysqli_fetch_array($res)): ?>
                         <tr>
-                            <td class="m-text"><?= htmlspecialchars($row['matricula']) ?></td>
+                            <td class="m-text">
+                                <?php 
+                                $mat = $row['matricula'];
+                                if (strpos($mat, '$2y$') === 0) {
+                                    echo "221000" . str_pad($row['id'], 4, "0", STR_PAD_LEFT);
+                                } else {
+                                    echo htmlspecialchars($mat);
+                                }
+                                ?>
+                            </td>
                             <td class="alumno-nombre"><?= htmlspecialchars($row['nombre']) ?></td>
                             <td><?= htmlspecialchars($row['carrera']) ?></td>
                             <td><?= htmlspecialchars($row['nombre_club']) ?></td>

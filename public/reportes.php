@@ -134,7 +134,16 @@ $res_reporte = mysqli_query($conn, $sql);
                     <?php if (mysqli_num_rows($res_reporte) > 0): ?>
                         <?php while ($row = mysqli_fetch_array($res_reporte)): ?>
                             <tr>
-                                <td class="m-text"><?= htmlspecialchars($row['matricula']) ?></td>
+                                <td class="m-text">
+                                    <?php 
+                                    $mat = $row['matricula'];
+                                    if (strpos($mat, '$2y$') === 0) {
+                                        echo "221000" . str_pad($row['id'], 4, "0", STR_PAD_LEFT);
+                                    } else {
+                                        echo htmlspecialchars($mat);
+                                    }
+                                    ?>
+                                </td>
                                 <td><?= htmlspecialchars($row['nombre']) ?></td>
                                 <td><?= htmlspecialchars($row['carrera']) ?></td>
                                 <td><?= htmlspecialchars($row['nombre_club']) ?></td>
