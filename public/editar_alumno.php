@@ -83,7 +83,6 @@ $clubes = mysqli_query($conn, "SELECT * FROM clubes");
     </div>
 
     <script>
-        // Detecta si una letra se repite 4 o más veces en el valor
         function tieneLetraRepetida(valor) {
             return /([a-záéíóúñ])\1{3,}/i.test(valor);
         }
@@ -115,7 +114,6 @@ $clubes = mysqli_query($conn, "SELECT * FROM clubes");
         });
     </script>
     <script>
-    // Si la página se carga desde caché sin sesión, redirigir
     window.addEventListener('pageshow', function(e) {
         if (e.persisted) {
             window.location.reload();

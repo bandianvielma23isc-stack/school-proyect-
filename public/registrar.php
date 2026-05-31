@@ -78,12 +78,14 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                 <label>¿A qué club quieres pertenecer?</label>
                 <select name="club_id" required>
                     <option value="" disabled selected>Selecciona un club</option>
-                    <?php while ($c = mysqli_fetch_array($res_clubes)): 
-                        // Convierte el texto de la base de datos a "Tipo Título"
-                        $nombre_formateado = mb_convert_case($c['nombre_club'], MB_CASE_TITLE, "UTF-8");
+                    <?php 
+                    if ($res_clubes) {
+                        while ($c = mysqli_fetch_array($res_clubes)) {
+                            $nombre_formateado = mb_convert_case($c['nombre_club'], MB_CASE_TITLE, "UTF-8");
+                            echo '<option value="'.htmlspecialchars($c['id']).'">'.htmlspecialchars($nombre_formateado).'</option>';
+                        }
+                    }
                     ?>
-                        <option value="<?= htmlspecialchars($c['id']) ?>"><?= htmlspecialchars($nombre_formateado) ?></option>
-                    <?php endwhile; ?>
                 </select>
             </div>
             
@@ -98,7 +100,6 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
     </div>
 
     <script>
-        // Detecta si una letra se repite 4 o más veces en el valor
         function tieneLetraRepetida(valor) {
             return /([a-záéíóúñ])\1{3,}/i.test(valor);
         }
@@ -129,7 +130,6 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
             }
         });
 
-        // Alertas de status mediante URL
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('status') === 'success') {
             Swal.fire({

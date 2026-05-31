@@ -1,11 +1,9 @@
 <?php
 session_start();
-// Si ya hay sesión de alumno, ir directo al perfil
 if (isset($_SESSION['alumno_matricula'])) {
     header("Location: perfil_alumno.php");
     exit();
 }
-// Si hay sesión de admin, redirigir al panel admin
 if (isset($_SESSION['admin_auth'])) {
     header("Location: admin.php");
     exit();
