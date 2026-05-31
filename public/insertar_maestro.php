@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 include '../config/conexion.php';
 
@@ -79,12 +79,12 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                 
                 <div class="input-group">
                     <label>Nombre(s):</label>
-                    <input type="text" name="nombre" placeholder="Ej: Javier" required>
+                    <input type="text" name="nombre" placeholder="Ej: Javier" maxlength="25" pattern="[\p{L} ]{1,25}" title="Solo letras, maximo 25 caracteres" required>
                 </div>
 
                 <div class="input-group">
                     <label>Apellidos:</label>
-                    <input type="text" name="apellidos" placeholder="Ej: Solís Garza" required>
+                    <input type="text" name="apellidos" placeholder="Ej: Solis Garza" maxlength="30" pattern="[\p{L} ]{1,30}" title="Solo letras, maximo 30 caracteres" required>
                 </div>
 
                 <div class="input-group">
@@ -103,7 +103,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                     </select>
                 </div>
 
-                <button type="submit" class="btn-guardar">Guardar Profesor</button>
+                <button type="submit" class="btn-guardar">Guardar / Actualizar Profesor</button>
             </form>
         </div>
     </div>
@@ -126,6 +126,12 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                 confirmButtonColor: '#B30000'
             });
         }
+
+        document.querySelectorAll('input[name="nombre"], input[name="apellidos"]').forEach((input) => {
+            input.addEventListener('input', () => {
+                input.value = input.value.replace(/[^\p{L} ]/gu, '');
+            });
+        });
     </script>
 </body>
 </html>

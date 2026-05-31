@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -49,17 +49,19 @@ if ($club_id > 0) {
     $res_comp = mysqli_stmt_get_result($stmt_comp);
 }
 
-$maestros = [
-    'Norteño'       => 'Lic. Javier Solís',
-    'Ajedrez'       => 'Ing. Alicia Méndez',
-    'Fútbol'        => 'Coach Fernando Hierro',
-    'Danza'         => 'Lic. Carmen Vega',
-    'Tiro con Arco' => 'Lic. Roberto Garza',
-    'Rondalla'      => 'Mtro. Héctor Luna',
-    'Basketball'    => 'Coach Daniela Reyes',
-    'Voleiball'     => 'Lic. Patricia Morales'
-];
-$maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
+$maestro = 'Por asignar';
+if ($club_id > 0) {
+    $query_maestro = "SELECT nombre, apellidos FROM maestros WHERE club_id = ? ORDER BY id DESC LIMIT 1";
+    $stmt_maestro = mysqli_prepare($conn, $query_maestro);
+    mysqli_stmt_bind_param($stmt_maestro, "i", $club_id);
+    mysqli_stmt_execute($stmt_maestro);
+    $res_maestro = mysqli_stmt_get_result($stmt_maestro);
+    $datos_maestro = mysqli_fetch_array($res_maestro);
+
+    if ($datos_maestro) {
+        $maestro = trim($datos_maestro['nombre'] . ' ' . $datos_maestro['apellidos']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -207,17 +209,66 @@ $maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
             });
         });
 
-        document.getElementById('inputFoto').addEventListener('change', function(e) {
-            e.stopPropagation();
-            const archivo = this.files[0];
-            if (!archivo) return;
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputFoto = document.getElementById('inputFoto');
+            if (!inputFoto) {
+                console.error('inputFoto no encontrado');
+                return;
+            }
 
-            const formData = new FormData();
-            formData.append('foto', archivo);
+            inputFoto.addEventListener('change', function(e) {
+                e.stopPropagation();
+                const archivo = this.files[0];
+                if (!archivo) return;
 
-            fetch('/school-proyect-/src/actualizar_foto.php', { method: 'POST', body: formData })
-                .then(r => r.json())
+                // Validar tamaño antes de enviar
+                if (archivo.size > 10485760) {
+                    Swal.fire('Error', 'La imagen es muy grande. El tamaño máximo es 10MB', 'error');
+                    this.value = '';
+                    return;
+                }
+
+                // Validar tipo de archivo
+                const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!tiposPermitidos.includes(archivo.type)) {
+                    Swal.fire('Error', 'Solo se permiten imágenes JPG, PNG o WEBP', 'error');
+                    this.value = '';
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('foto', archivo);
+
+                // Mostrar indicador de carga
+                Swal.fire({
+                    title: 'Subiendo foto...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                fetch('../src/actualizar_foto.php', { 
+                    method: 'POST', 
+                    body: formData,
+                    credentials: 'same-origin'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error del servidor: ' + response.status);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error('Respuesta no JSON:', text);
+                        throw new Error('Respuesta inválida del servidor');
+                    }
+                })
                 .then(data => {
+                    Swal.close();
                     if (data.ok) {
                         const reader = new FileReader();
                         reader.onload = function(e) {
@@ -228,45 +279,75 @@ $maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
                             document.getElementById('btnQuitarFoto').style.display = 'inline-block';
                         };
                         reader.readAsDataURL(archivo);
+                        Swal.fire('¡Éxito!', 'Foto actualizada correctamente', 'success');
                     } else {
                         Swal.fire('Error', data.error || 'No se pudo subir la imagen', 'error');
                     }
                 })
                 .catch(err => {
-                    Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
-                    console.error(err);
+                    Swal.close();
+                    console.error('Error completo:', err);
+                    Swal.fire('Error', 'No se pudo conectar con el servidor. Verifica que XAMPP esté ejecutándose.', 'error');
+                })
+                .finally(() => {
+                    inputFoto.value = '';
                 });
-        });
-
-        document.getElementById('btnQuitarFoto').addEventListener('click', function(e) {
-            e.stopPropagation();
-            Swal.fire({
-                title: '¿Quitar foto?',
-                text: 'Se eliminará tu foto de perfil.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#B30000',
-                cancelButtonColor: '#555',
-                confirmButtonText: 'Sí, quitar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const formData = new FormData();
-                    formData.append('eliminar', '1');
-
-                    fetch('/school-proyect-/src/actualizar_foto.php', { method: 'POST', body: formData })
-                        .then(r => r.json())
-                        .then(data => {
-                            if (data.ok) {
-                                document.getElementById('fotoPreview').style.display = 'none';
-                                document.getElementById('fotoPreview').src = '';
-                                const span = document.getElementById('inicialesSpan');
-                                if (span) span.style.display = 'flex';
-                                document.getElementById('btnQuitarFoto').style.display = 'none';
-                            }
-                        });
-                }
             });
+
+            const btnQuitarFoto = document.getElementById('btnQuitarFoto');
+            if (btnQuitarFoto) {
+                btnQuitarFoto.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    Swal.fire({
+                        title: '¿Quitar foto?',
+                        text: 'Se eliminará tu foto de perfil.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#B30000',
+                        cancelButtonColor: '#555',
+                        confirmButtonText: 'Sí, quitar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const formData = new FormData();
+                            formData.append('eliminar', '1');
+
+                            Swal.fire({
+                                title: 'Eliminando...',
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+
+                            fetch('../src/actualizar_foto.php', { 
+                                method: 'POST', 
+                                body: formData,
+                                credentials: 'same-origin'
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                Swal.close();
+                                if (data.ok) {
+                                    document.getElementById('fotoPreview').style.display = 'none';
+                                    document.getElementById('fotoPreview').src = '';
+                                    const span = document.getElementById('inicialesSpan');
+                                    if (span) span.style.display = 'flex';
+                                    document.getElementById('btnQuitarFoto').style.display = 'none';
+                                    Swal.fire('¡Listo!', 'Foto eliminada correctamente', 'success');
+                                } else {
+                                    Swal.fire('Error', data.error || 'No se pudo eliminar la foto', 'error');
+                                }
+                            })
+                            .catch(err => {
+                                Swal.close();
+                                console.error('Error:', err);
+                                Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
+                            });
+                        }
+                    });
+                });
+            }
         });
 
         window.addEventListener('pageshow', function(event) {
