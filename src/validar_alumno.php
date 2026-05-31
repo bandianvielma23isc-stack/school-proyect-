@@ -6,6 +6,11 @@ if (isset($_POST['nombre']) && isset($_POST['matricula'])) {
     $nombre_ingresado = mysqli_real_escape_string($conn, trim($_POST['nombre']));
     $matricula_ingresada = trim($_POST['matricula']); 
 
+    if (!preg_match('/^[0-9]{7,12}$/', $matricula_ingresada)) {
+        echo "<script>alert('La matricula debe tener entre 7 y 12 digitos numericos.'); window.location='../public/login_alumno.php';</script>";
+        exit();
+    }
+
     $query = "SELECT * FROM alumnos WHERE nombre LIKE '$nombre_ingresado%'";
     $res = mysqli_query($conn, $query);
 

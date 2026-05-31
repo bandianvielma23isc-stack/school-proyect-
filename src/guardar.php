@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $carrera_val   = isset($_POST['carrera']) ? trim($_POST['carrera']) : '';
     $club_val      = isset($_POST['club_id']) ? intval($_POST['club_id']) : 0;
 
-    if (empty($nombre_val) || empty($apellido_val) || empty($matricula_val) || $club_val === 0) {
+    if (empty($nombre_val) || empty($apellido_val) || !preg_match('/^[0-9]{7,12}$/', $matricula_val) || $club_val === 0) {
         header("Location: ../public/registrar.php?status=error");
         exit();
     }
@@ -26,9 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nombre_completo = $nombres . ' ' . $apellidos;
     $matricula_encriptada = password_hash($matricula_val, PASSWORD_BCRYPT);
+    $matricula_limpia = mysqli_real_escape_string($conn, $matricula_val);
 
-    $query = "INSERT INTO alumnos (nombre, matricula, carrera, club_id) 
-              VALUES ('$nombre_completo', '$matricula_encriptada', '$carrera', $club_val)";
+    $columna_visible = mysqli_query($conn, "SHOW COLUMNS FROM alumnos LIKE 'matricula_visible'");
+    if ($columna_visible && mysqli_num_rows($columna_visible) === 0) {
+        mysqli_query($conn, "ALTER TABLE alumnos ADD COLUMN matricula_visible VARCHAR(255) NULL");
+    }
+
+    $query = "INSERT INTO alumnos (nombre, matricula, matricula_visible, carrera, club_id) 
+              VALUES ('$nombre_completo', '$matricula_encriptada', '$matricula_limpia', '$carrera', $club_val)";
 
     if (mysqli_query($conn, $query)) {
         $nuevo_id = mysqli_insert_id($conn);
