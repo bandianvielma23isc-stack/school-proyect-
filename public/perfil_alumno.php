@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// --- EVITAR CACHÉ DEL NAVEGADOR ---
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -9,8 +8,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 include '../config/conexion.php';
 
-// Solo alumno logueado puede entrar
-if (!isset($_SESSION['alumno_matricula'])) {
+if (!isset($_SESSION['alumno_id'])) {
     if (isset($_SESSION['admin_auth'])) {
         session_destroy();
     }
@@ -18,27 +16,25 @@ if (!isset($_SESSION['alumno_matricula'])) {
     exit();
 }
 
-$matricula = $_SESSION['alumno_matricula'];
+$alumno_id = $_SESSION['alumno_id'];
 
-// 1. Consulta Asegurada para los datos del Alumno
 $query = "SELECT a.*, c.nombre_club FROM alumnos a 
-          JOIN clubes c ON a.club_id = c.id 
-          WHERE a.matricula = ?";
+          LEFT JOIN clubes c ON a.club_id = c.id 
+          WHERE a.id = ?";
 $stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt, "s", $matricula);
+mysqli_stmt_bind_param($stmt, "i", $alumno_id);
 mysqli_stmt_execute($stmt);
 $res = mysqli_stmt_get_result($stmt);
 $datos = mysqli_fetch_array($res);
 
-// Validar por si el alumno no existe en la BD
 if (!$datos) {
     header("Location: login_alumno.php");
     exit();
 }
 
-// Iniciales del nombre
-$nombres   = explode(" ", $datos['nombre']);
+$nombres   = explode(" ", trim($datos['nombre']));
 $iniciales = strtoupper(substr($nombres[0], 0, 1) . (isset($nombres[1]) && !empty($nombres[1]) ? substr($nombres[1], 0, 1) : ""));
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 $club_id   = $datos['club_id'];
 =======
@@ -46,15 +42,20 @@ $club_id   = $datos['club_id'] ?? 0;
 $nombre_club_actual = $datos['nombre_club'] ?? 'Ninguno';
 $foto_url= (!empty($datos['foto']))? "assets/uploads/photos/" . $datos['foto'] : "assets/img/default_avatar.png";
 >>>>>>> Stashed changes
+=======
+$club_id   = $datos['club_id'] ?? 0;
+$nombre_club_actual = $datos['nombre_club'] ?? 'Ninguno';
+>>>>>>> desarrollo
 
-// 2. Consulta Asegurada para los compañeros
-$query_comp = "SELECT nombre, apellidos, carrera FROM alumnos WHERE club_id = ? AND matricula != ?";
-$stmt_comp = mysqli_prepare($conn, $query_comp);
-mysqli_stmt_bind_param($stmt_comp, "is", $club_id, $matricula);
-mysqli_stmt_execute($stmt_comp);
-$res_comp = mysqli_stmt_get_result($stmt_comp);
+$res_comp = false;
+if ($club_id > 0) {
+    $query_comp = "SELECT nombre, carrera FROM alumnos WHERE club_id = ? AND id != ?";
+    $stmt_comp = mysqli_prepare($conn, $query_comp);
+    mysqli_stmt_bind_param($stmt_comp, "ii", $club_id, $alumno_id);
+    mysqli_stmt_execute($stmt_comp);
+    $res_comp = mysqli_stmt_get_result($stmt_comp);
+}
 
-// Listado de maestros
 $maestros = [
     'Norteño'       => 'Lic. Javier Solís',
     'Ajedrez'       => 'Ing. Alicia Méndez',
@@ -65,7 +66,7 @@ $maestros = [
     'Basketball'    => 'Coach Daniela Reyes',
     'Voleiball'     => 'Lic. Patricia Morales'
 ];
-$maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
+$maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -125,7 +126,6 @@ $maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
 </head>
 <body>
     <script>
-        // Evitar regreso con botón atrás después de cerrar sesión
         window.history.pushState(null, null, window.location.href);
         window.addEventListener('popstate', function() {
             window.history.pushState(null, null, window.location.href);
@@ -134,6 +134,7 @@ $maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
 
     <div class="dashboard">
         <div class="card-user">
+<<<<<<< HEAD
 <<<<<<< Updated upstream
             <div class="circle-avatar" id="avatarBtn" style="cursor:pointer;" title="Volver al inicio">
                 <?= htmlspecialchars($iniciales) ?>
@@ -164,16 +165,25 @@ $maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
                 </div>
             </div>
                 
+=======
+            <div class="circle-avatar" id="avatarBtn" style="cursor:pointer;" title="Cerrar Sesión">
+                <?= htmlspecialchars($iniciales) ?>
+            </div>
+            <h2><?= htmlspecialchars($datos['nombre']) ?></h2>
+>>>>>>> desarrollo
             
             <p><strong>Matrícula:</strong> <?= htmlspecialchars($_SESSION['alumno_matricula_limpia'] ?? '2210002541') ?></p>
             
             <p><strong>Carrera:</strong> <?= htmlspecialchars($datos['carrera'] ?? 'No asignada') ?></p>
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> desarrollo
             <a href="../src/logout.php" class="logout">Cerrar Sesión</a>
         </div>
         <div>
             <div class="club-banner">
-                <h1>Club: <?= htmlspecialchars($datos['nombre_club']) ?></h1>
+                <h1>Club: <?= htmlspecialchars($nombre_club_actual) ?></h1>
                 <p>Maestro Encargado: <strong><?= htmlspecialchars($maestro) ?></strong></p>
             </div>
             <div class="team-card">
@@ -186,12 +196,18 @@ $maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
                         </tr>
                     </thead>
                     <tbody>
-                        <?php while ($c = mysqli_fetch_array($res_comp)): ?>
+                        <?php if ($res_comp && mysqli_num_rows($res_comp) > 0): ?>
+                            <?php while ($c = mysqli_fetch_array($res_comp)): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($c['nombre']) ?></td>
+                                    <td><?= htmlspecialchars($c['carrera'] ?? 'Sistemas Computacionales') ?></td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
                             <tr>
-                                <td><?= htmlspecialchars($c['nombre']) ?> <?= htmlspecialchars($c['apellidos']) ?></td>
-                                <td><?= htmlspecialchars($c['carrera']) ?></td>
+                                <td colspan="2" style="text-align: center; color: #888;">No tienes compañeros asignados en este club todavía.</td>
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -217,7 +233,6 @@ $maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
             });
         });
 
-        // Control de caché y navegación hacia atrás (Unificado)
         window.addEventListener('pageshow', function (event) {
             if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 window.location.href = "../src/logout.php";

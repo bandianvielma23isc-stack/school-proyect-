@@ -6,9 +6,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 include '../config/conexion.php';
 
-// Solo admin puede entrar, si es alumno lo manda a su login
 if (!isset($_SESSION['admin_auth'])) {
-    // Si hay sesión de alumno, destruirla antes de pedir login de admin
     if (isset($_SESSION['alumno_matricula'])) {
         session_destroy();
     }
@@ -25,20 +23,50 @@ $res = mysqli_query($conn, "SELECT a.*, c.nombre_club FROM alumnos a JOIN clubes
     <title>Gestión de Clubes - Administrador</title>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/admin.css">
+    <style>
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .admin-header h1 {
+            margin: 0;
+        }
+        .search-container input {
+            background-color: #1a1a1a;
+            color: #fff;
+            border: 1px solid #B30000; 
+            padding: 10px 15px;
+            border-radius: 5px;
+            width: 250px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .search-container input:focus {
+            border-color: #fff;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+    </style>
 </head>
 <body>
     <script>
-    // Evitar regreso con botón atrás después de cerrar sesión
     window.history.pushState(null, null, window.location.href);
     window.addEventListener('popstate', function() {
         window.history.pushState(null, null, window.location.href);
     });
-</script>
+    </script>
 
     <?php $activePage = 'admin'; include '../templates/sidebar.php'; ?>
 
     <div class="main-content">
-        <h1>Gestión de Clubes</h1>
+        <div class="admin-header">
+            <h1>Gestión de Clubes</h1>
+            <div class="search-container">
+                <input type="text" id="adminSearch" placeholder="Buscar alumno por nombre...">
+            </div>
+        </div>
+
         <div class="table-container">
             <table>
                 <thead>
@@ -50,17 +78,26 @@ $res = mysqli_query($conn, "SELECT a.*, c.nombre_club FROM alumnos a JOIN clubes
                         <th>ACCIONES</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tablaAlumnos">
                     <?php while ($row = mysqli_fetch_array($res)): ?>
                         <tr>
-                            <td class="m-text"><?= $row['matricula'] ?></td>
-                            <td><?= $row['nombre'] ?> <?= $row['apellidos'] ?></td>
-                            <td><?= $row['carrera'] ?></td>
-                            <td><?= $row['nombre_club'] ?></td>
+                            <td class="m-text">
+                                <?php 
+                                $mat = $row['matricula'];
+                                if (strpos($mat, '$2y$') === 0) {
+                                    echo "221000" . str_pad($row['id'], 4, "0", STR_PAD_LEFT);
+                                } else {
+                                    echo htmlspecialchars($mat);
+                                }
+                                ?>
+                            </td>
+                            <td class="alumno-nombre"><?= htmlspecialchars($row['nombre']) ?></td>
+                            <td><?= htmlspecialchars($row['carrera']) ?></td>
+                            <td><?= htmlspecialchars($row['nombre_club']) ?></td>
                             <td>
                                 <a href="editar_alumno.php?id=<?= $row['id'] ?>" class="btn-edit">EDITAR</a>
                                 <a href="../src/eliminar_alumno.php?id=<?= $row['id'] ?>" class="btn-delete"
-                                    onclick="return confirm('¿Eliminar este alumno?')">ELIMINAR</a>
+                                   onclick="return confirm('¿Eliminar este alumno?')">ELIMINAR</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -68,14 +105,32 @@ $res = mysqli_query($conn, "SELECT a.*, c.nombre_club FROM alumnos a JOIN clubes
             </table>
         </div>
     </div>
+
     <script>
-    // Si la página se carga desde caché sin sesión, redirigir
     window.addEventListener('pageshow', function(e) {
         if (e.persisted) {
             window.location.reload();
         }
     });
-</script>
 
+    document.getElementById('adminSearch').addEventListener('keyup', function() {
+        let filtro = this.value.toLowerCase().trim();
+        let filas = document.querySelectorAll('#tablaAlumnos tr');
+
+        filas.forEach(function(fila) {
+            let columnaNombre = fila.querySelector('.alumno-nombre');
+            
+            if (columnaNombre) {
+                let nombreTexto = columnaNombre.textContent.toLowerCase();
+                
+                if (nombreTexto.includes(filtro)) {
+                    fila.style.display = ''; 
+                } else {
+                    fila.style.display = 'none'; 
+                }
+            }
+        });
+    });
+    </script>
 </body>
 </html>
