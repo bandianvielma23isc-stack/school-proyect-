@@ -39,7 +39,13 @@ if (!$datos) {
 // Iniciales del nombre
 $nombres   = explode(" ", $datos['nombre']);
 $iniciales = strtoupper(substr($nombres[0], 0, 1) . (isset($nombres[1]) && !empty($nombres[1]) ? substr($nombres[1], 0, 1) : ""));
+<<<<<<< Updated upstream
 $club_id   = $datos['club_id'];
+=======
+$club_id   = $datos['club_id'] ?? 0;
+$nombre_club_actual = $datos['nombre_club'] ?? 'Ninguno';
+$foto_url= (!empty($datos['foto']))? "assets/uploads/photos/" . $datos['foto'] : "assets/img/default_avatar.png";
+>>>>>>> Stashed changes
 
 // 2. Consulta Asegurada para los compañeros
 $query_comp = "SELECT nombre, apellidos, carrera FROM alumnos WHERE club_id = ? AND matricula != ?";
@@ -64,12 +70,58 @@ $maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - TEC San Pedro</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/perfil_alumno.css">
+
+    <style>
+    .avatar-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .circle-avatar {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background-color: #B30000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #fff;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    .circle-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .avatar-actions {
+        display: flex;
+        gap: 8px;
+    }
+    .btn-foto {
+        background: #1a1a1a;
+        border: 1px solid #B30000;
+        color: #fff;
+        padding: 5px 12px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .btn-foto:hover { background: #B30000; }
+    .btn-quitar { border-color: #555; }
+    .btn-quitar:hover { background: #333; }
+</style>
 </head>
 <body>
     <script>
@@ -82,12 +134,41 @@ $maestro = $maestros[$datos['nombre_club']] ?? 'Por asignar';
 
     <div class="dashboard">
         <div class="card-user">
+<<<<<<< Updated upstream
             <div class="circle-avatar" id="avatarBtn" style="cursor:pointer;" title="Volver al inicio">
                 <?= htmlspecialchars($iniciales) ?>
             </div>
             <h2><?= htmlspecialchars($datos['nombre']) ?> <?= htmlspecialchars($datos['apellidos']) ?></h2>
             <p><strong>Matrícula:</strong> <?= htmlspecialchars($datos['matricula']) ?></p>
             <p><strong>Carrera:</strong> <?= htmlspecialchars($datos['carrera']) ?></p>
+=======
+            <div class = "avatar-wrapper>
+                <div class="circle-avatar" id="avatarBtn" tittle="Cerrar Sesion">
+                    <?php if ($foto_url): ?> 
+                        <img src="<?= $foto_url ?>" alt="Foto de perfil" class="avatar-img">
+                    <?php else: ?>
+                        <span id = "inicialesSpan"><?= htmlespecialchars($iniciales) ?></span> 
+                        <img src="" alt="" id="fotoPreview" Style="display:none;"> 
+                    <?php endif; ?>
+                </div> 
+
+                <div class="avatar-actions"> 
+                    <label for="inputFoto" class="btn-foto" title="subir foto"> cambiar</label> 
+                    <input type="file" id="inputFoto" accept="image/*" style="display:none;">
+
+                    <?php if ($foto_url): ?> 
+                        <button class= "btn-foto btn-quitar" id="btn QuitarFoto"> Quitar</button> 
+                    <?php else: ?> 
+                        <button class="btn-foto btn-quitar" id="btn QuitarFoto" style="display:none;"> Quitar</button>
+                    <?php endif; ?>
+                </div>
+            </div>
+                
+            
+            <p><strong>Matrícula:</strong> <?= htmlspecialchars($_SESSION['alumno_matricula_limpia'] ?? '2210002541') ?></p>
+            
+            <p><strong>Carrera:</strong> <?= htmlspecialchars($datos['carrera'] ?? 'No asignada') ?></p>
+>>>>>>> Stashed changes
             <a href="../src/logout.php" class="logout">Cerrar Sesión</a>
         </div>
         <div>
