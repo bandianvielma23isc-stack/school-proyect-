@@ -34,18 +34,11 @@ if (!$datos) {
 
 $nombres   = explode(" ", trim($datos['nombre']));
 $iniciales = strtoupper(substr($nombres[0], 0, 1) . (isset($nombres[1]) && !empty($nombres[1]) ? substr($nombres[1], 0, 1) : ""));
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-$club_id   = $datos['club_id'];
-=======
 $club_id   = $datos['club_id'] ?? 0;
 $nombre_club_actual = $datos['nombre_club'] ?? 'Ninguno';
-$foto_url= (!empty($datos['foto']))? "assets/uploads/photos/" . $datos['foto'] : "assets/img/default_avatar.png";
->>>>>>> Stashed changes
-=======
-$club_id   = $datos['club_id'] ?? 0;
-$nombre_club_actual = $datos['nombre_club'] ?? 'Ninguno';
->>>>>>> desarrollo
+$foto_url = (!empty($datos['foto']))
+    ? "assets/uploads/photos/" . htmlspecialchars($datos['foto'])
+    : null;
 
 $res_comp = false;
 if ($club_id > 0) {
@@ -71,58 +64,56 @@ $maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - TEC San Pedro</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/perfil_alumno.css">
-
     <style>
-    .avatar-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-    .circle-avatar {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        background-color: #B30000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        font-weight: bold;
-        color: #fff;
-        overflow: hidden;
-        cursor: pointer;
-    }
-    .circle-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .avatar-actions {
-        display: flex;
-        gap: 8px;
-    }
-    .btn-foto {
-        background: #1a1a1a;
-        border: 1px solid #B30000;
-        color: #fff;
-        padding: 5px 12px;
-        border-radius: 5px;
-        font-size: 0.8rem;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    .btn-foto:hover { background: #B30000; }
-    .btn-quitar { border-color: #555; }
-    .btn-quitar:hover { background: #333; }
-</style>
+        .avatar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .circle-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background-color: #B30000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .circle-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-foto {
+            background: #1a1a1a;
+            border: 1px solid #B30000;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-foto:hover { background: #B30000; }
+        .btn-quitar { border-color: #555; }
+        .btn-quitar:hover { background: #333; }
+    </style>
 </head>
 <body>
     <script>
@@ -134,53 +125,35 @@ $maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
 
     <div class="dashboard">
         <div class="card-user">
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-            <div class="circle-avatar" id="avatarBtn" style="cursor:pointer;" title="Volver al inicio">
-                <?= htmlspecialchars($iniciales) ?>
-            </div>
-            <h2><?= htmlspecialchars($datos['nombre']) ?> <?= htmlspecialchars($datos['apellidos']) ?></h2>
-            <p><strong>Matrícula:</strong> <?= htmlspecialchars($datos['matricula']) ?></p>
-            <p><strong>Carrera:</strong> <?= htmlspecialchars($datos['carrera']) ?></p>
-=======
-            <div class = "avatar-wrapper>
-                <div class="circle-avatar" id="avatarBtn" tittle="Cerrar Sesion">
-                    <?php if ($foto_url): ?> 
-                        <img src="<?= $foto_url ?>" alt="Foto de perfil" class="avatar-img">
+
+            <div class="avatar-wrapper">
+                <div class="circle-avatar" id="avatarBtn" title="Cerrar Sesión">
+                    <?php if ($foto_url): ?>
+                        <img src="<?= $foto_url ?>" alt="Foto de perfil" id="fotoPreview">
                     <?php else: ?>
-                        <span id = "inicialesSpan"><?= htmlespecialchars($iniciales) ?></span> 
-                        <img src="" alt="" id="fotoPreview" Style="display:none;"> 
+                        <span id="inicialesSpan"><?= htmlspecialchars($iniciales) ?></span>
+                        <img src="" alt="" id="fotoPreview" style="display:none;">
                     <?php endif; ?>
-                </div> 
+                </div>
 
-                <div class="avatar-actions"> 
-                    <label for="inputFoto" class="btn-foto" title="subir foto"> cambiar</label> 
-                    <input type="file" id="inputFoto" accept="image/*" style="display:none;">
+                <div class="avatar-actions">
+                    <label for="inputFoto" class="btn-foto" title="Subir foto">📷 Cambiar</label>
+                    <input type="file" id="inputFoto" accept="image/jpeg,image/png,image/webp" style="display:none;">
 
-                    <?php if ($foto_url): ?> 
-                        <button class= "btn-foto btn-quitar" id="btn QuitarFoto"> Quitar</button> 
-                    <?php else: ?> 
-                        <button class="btn-foto btn-quitar" id="btn QuitarFoto" style="display:none;"> Quitar</button>
+                    <?php if ($foto_url): ?>
+                        <button class="btn-foto btn-quitar" id="btnQuitarFoto">🗑 Quitar</button>
+                    <?php else: ?>
+                        <button class="btn-foto btn-quitar" id="btnQuitarFoto" style="display:none;">🗑 Quitar</button>
                     <?php endif; ?>
                 </div>
             </div>
-                
-=======
-            <div class="circle-avatar" id="avatarBtn" style="cursor:pointer;" title="Cerrar Sesión">
-                <?= htmlspecialchars($iniciales) ?>
-            </div>
+
             <h2><?= htmlspecialchars($datos['nombre']) ?></h2>
->>>>>>> desarrollo
-            
-            <p><strong>Matrícula:</strong> <?= htmlspecialchars($_SESSION['alumno_matricula_limpia'] ?? '2210002541') ?></p>
-            
+            <p><strong>Matrícula:</strong> <?= htmlspecialchars($_SESSION['alumno_matricula_limpia'] ?? '') ?></p>
             <p><strong>Carrera:</strong> <?= htmlspecialchars($datos['carrera'] ?? 'No asignada') ?></p>
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> desarrollo
             <a href="../src/logout.php" class="logout">Cerrar Sesión</a>
         </div>
+
         <div>
             <div class="club-banner">
                 <h1>Club: <?= htmlspecialchars($nombre_club_actual) ?></h1>
@@ -205,7 +178,9 @@ $maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="2" style="text-align: center; color: #888;">No tienes compañeros asignados en este club todavía.</td>
+                                <td colspan="2" style="text-align:center; color:#888;">
+                                    No tienes compañeros asignados en este club todavía.
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -215,7 +190,6 @@ $maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
     </div>
 
     <script>
-        // SweetAlert para cerrar sesión
         document.getElementById('avatarBtn').addEventListener('click', function() {
             Swal.fire({
                 title: '¿Cerrar sesión?',
@@ -233,7 +207,69 @@ $maestro = $maestros[$nombre_club_actual] ?? 'Por asignar';
             });
         });
 
-        window.addEventListener('pageshow', function (event) {
+        document.getElementById('inputFoto').addEventListener('change', function(e) {
+            e.stopPropagation();
+            const archivo = this.files[0];
+            if (!archivo) return;
+
+            const formData = new FormData();
+            formData.append('foto', archivo);
+
+            fetch('/school-proyect-/src/actualizar_foto.php', { method: 'POST', body: formData })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.ok) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            document.getElementById('fotoPreview').src = e.target.result;
+                            document.getElementById('fotoPreview').style.display = 'block';
+                            const span = document.getElementById('inicialesSpan');
+                            if (span) span.style.display = 'none';
+                            document.getElementById('btnQuitarFoto').style.display = 'inline-block';
+                        };
+                        reader.readAsDataURL(archivo);
+                    } else {
+                        Swal.fire('Error', data.error || 'No se pudo subir la imagen', 'error');
+                    }
+                })
+                .catch(err => {
+                    Swal.fire('Error', 'No se pudo conectar con el servidor', 'error');
+                    console.error(err);
+                });
+        });
+
+        document.getElementById('btnQuitarFoto').addEventListener('click', function(e) {
+            e.stopPropagation();
+            Swal.fire({
+                title: '¿Quitar foto?',
+                text: 'Se eliminará tu foto de perfil.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#B30000',
+                cancelButtonColor: '#555',
+                confirmButtonText: 'Sí, quitar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const formData = new FormData();
+                    formData.append('eliminar', '1');
+
+                    fetch('/school-proyect-/src/actualizar_foto.php', { method: 'POST', body: formData })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.ok) {
+                                document.getElementById('fotoPreview').style.display = 'none';
+                                document.getElementById('fotoPreview').src = '';
+                                const span = document.getElementById('inicialesSpan');
+                                if (span) span.style.display = 'flex';
+                                document.getElementById('btnQuitarFoto').style.display = 'none';
+                            }
+                        });
+                }
+            });
+        });
+
+        window.addEventListener('pageshow', function(event) {
             if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
                 window.location.href = "../src/logout.php";
             }

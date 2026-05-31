@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', 0);
+header('Content-Type: application/json');  // <- siempre responde JSON
+
 include '../config/conexion.php';
 
 if (!isset($_SESSION['alumno_id'])) {
@@ -19,7 +22,7 @@ if (isset($_POST['eliminar'])) {
     $row = mysqli_fetch_assoc($res);
 
     if ($row['foto']) {
-        $ruta = "../admin/assets/uploads/fotos/" . $row['foto'];
+        $ruta = "../public/assets/uploads/photos/" . $row['foto'];
         if (file_exists($ruta)) unlink($ruta); // Borra el archivo
     }
 
@@ -41,15 +44,15 @@ if (isset($_FILES['foto'])) {
         echo json_encode(['error' => 'Solo JPG, PNG o WEBP']);
         exit();
     }
-    if ($archivo['size'] > 2 * 1024 * 1024) { // Máx 2MB
-        echo json_encode(['error' => 'La imagen no debe superar 2MB']);
+    if ($archivo['size'] > 10 * 1024 * 1024) { // Máx 10MB
+        echo json_encode(['error' => 'La imagen no debe superar 10MB']);
         exit();
     }
 
     // Nombre único para evitar conflictos
     $extension  = pathinfo($archivo['name'], PATHINFO_EXTENSION);
     $nombre     = 'alumno_' . $alumno_id . '_' . time() . '.' . $extension;
-    $destino    = "../admin/assets/uploads/fotos/" . $nombre;
+    $destino    = "../public/assets/uploads/photos/" . $nombre;
 
     // Borrar foto anterior si existe
     $stmt = mysqli_prepare($conn, "SELECT foto FROM alumnos WHERE id = ?");
@@ -58,7 +61,7 @@ if (isset($_FILES['foto'])) {
     $res = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($res);
     if ($row['foto']) {
-        $vieja = "../admin/assets/uploads/fotos/" . $row['foto'];
+        $vieja = "../public/assets/uploads/photos/" . $row['foto'];
         if (file_exists($vieja)) unlink($vieja);
     }
 
