@@ -91,7 +91,7 @@ $res = mysqli_query($conn, "SELECT a.*, c.nombre_club FROM alumnos a JOIN clubes
                                 echo htmlspecialchars($matricula);
                                 ?>
                             </td>
-                            <td class="alumno-nombre"><?= htmlspecialchars($row['nombre']) ?></td>
+                            <td class="alumno-nombre"><?= htmlspecialchars($row['nombre'] . ' ' . $row['apellidos']) ?></td>
                             <td><?= htmlspecialchars($row['carrera']) ?></td>
                             <td><?= htmlspecialchars($row['nombre_club']) ?></td>
                             <td>

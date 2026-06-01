@@ -133,20 +133,40 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
 
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('status') === 'success') {
-            Swal.fire({
-                title: '¡Registro Exitoso!',
-                text: 'Tus datos han sido guardados correctamente.',
-                icon: 'success',
-                confirmButtonColor: '#B30000',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) window.location.href = 'registrar.php';
-            });
+            const esAdmin = <?php echo isset($_SESSION['admin_auth']) ? 'true' : 'false'; ?>;
+            
+            if (esAdmin) {
+                Swal.fire({
+                    title: '¡Registro Exitoso!',
+                    text: 'El alumno ha sido registrado correctamente.',
+                    icon: 'success',
+                    confirmButtonColor: '#B30000',
+                    confirmButtonText: 'Cerrar'
+                });
+            } else {
+                Swal.fire({
+                    title: '¡Registro Exitoso!',
+                    text: 'Tu registro ha sido completado correctamente. Por favor, dirígete al login para iniciar sesión.',
+                    icon: 'success',
+                    confirmButtonColor: '#B30000',
+                    confirmButtonText: 'Ir al Login'
+                }).then((result) => {
+                    if (result.isConfirmed) window.location.href = 'login_alumno.php';
+                });
+            }
         }
         if (urlParams.get('status') === 'error') {
             Swal.fire({
                 title: 'Error',
                 text: 'No se pudo completar el registro. Intenta de nuevo.',
+                icon: 'error',
+                confirmButtonColor: '#B30000'
+            });
+        }
+        if (urlParams.get('status') === 'matricula_existe') {
+            Swal.fire({
+                title: 'Error',
+                text: 'Esta matrícula ya está registrada. Por favor, verifica el número.',
                 icon: 'error',
                 confirmButtonColor: '#B30000'
             });
