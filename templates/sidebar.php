@@ -21,6 +21,10 @@
         Dashboard
     </a>
 
+    <a href="estadisticas.php"
+        class="nav-link <?= ($activePage === 'estadisticas') ? 'active' : '' ?>">
+        Estadísticas
+
     <a href="registrar.php"
         class="nav-link <?= ($activePage === 'registrar') ? 'active' : '' ?>">
         Insertar Alumno

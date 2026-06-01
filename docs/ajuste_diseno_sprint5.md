@@ -46,6 +46,7 @@ alumnos -> registro
 
 ### Antes del Ajuste
 
+
 * La caligrafia era incoherente, mayusuculas combinadas con minusculas en campos diferentes.
 * Al seleccionar una carrera siempre se seleccionaba la de sistemas por defecto.
 * No existia una barra de busqueda para filtrar alumnos.
@@ -57,6 +58,8 @@ alumnos -> registro
 * El cajon de carrera ahora aparece vacio con la opcion "seleccione-una-carrera".
 * Se implemento una barra de busqueda en el dasboard del administrador para filtrar alumnos.
 * Ahora el alumno puede agregar una foto de perfil y eliminarla si no es de su agrado.
+
+
 
 ---
 

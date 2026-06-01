@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 include '../config/conexion.php';
 
@@ -54,13 +54,14 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
                     type="text"
                     name="matricula"
                     placeholder="Ej: 2210001500"
-                    pattern="[0-9]{10}"
-                    title="La matrícula debe tener exactamente 10 dígitos numéricos"
-                    maxlength="10"
-                    minlength="10"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                    pattern="[0-9]{7,12}"
+                    title="La matricula debe tener entre 7 y 12 digitos numericos"
+                    maxlength="12"
+                    minlength="7"
+                    inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12)"
                     required>
-                <small class="field-hint">Exactamente 10 dígitos</small>
+                <small class="field-hint">Entre 7 y 12 digitos</small>
             </div>
             
             <div class="input-group">
