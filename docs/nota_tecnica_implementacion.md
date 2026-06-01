@@ -29,3 +29,13 @@ if (strpos($mat, '$2y$') === 0) {
 } else {
     echo htmlspecialchars($mat);
 }
+### Riesgos Evaluados y Mitigados:
+* **Seguridad:** Cero riesgo. Las funciones criptográficas siguen operando con normalidad en el Login e Inserción; el enmascaramiento ocurre únicamente al renderizar las tablas de consulta.
+* **Rendimiento:** El impacto de las funciones nativas de strings en PHP (`strpos` y `str_pad`) es imperceptible ($O(1)$ por fila procesada), manteniendo el buscador en tiempo real fluido.
+
+## 4. Integración y Liberación (Flujo de Repositorio)
+1. **Aislamiento de la Mejora:** Los cambios de código se trabajaron de manera local en la rama aislada `logica-corregida`.
+2. **Preparación de la Rama Intermedia:** Se realizó un despliegue forzado a la rama `feature-dev` para limpiar archivos residuales del entorno de pruebas y asegurar un despliegue limpio de cara al entregable.
+3. **Merge de Producción:** Se integró exitosamente la rama de la característica con la rama principal de `desarrollo` mediante un Pull Request (PR) aprobado en la plataforma GitHub, garantizando que no se destruyera o borrara el trabajo previo del equipo.
+
+**Resultado:** El sistema se encuentra liberado, con descarga directa de reportes PDF ejecutivos y visualización correcta de matrículas institucionales. Listo para revisión docente.
