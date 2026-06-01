@@ -35,31 +35,8 @@ $res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as in
     <title>Vista de Clubes - Administrador</title>
     <link rel="stylesheet" href="assets/css/global.css">
     <link rel="stylesheet" href="assets/css/admin.css">
-    <link rel="stylesheet" href="assets/css/vista_clubes.css">
+    <link rel="stylesheet" href="assets/css/vista_clubes.css?v=2">
     
-    <style>
-        .card-club {
-            align-self: start;
-        }
-
-        .student-list.show {
-            max-height: 175px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-right: 5px;
-        }
-
-        .student-list::-webkit-scrollbar {
-            width: 6px;
-        }
-        .student-list::-webkit-scrollbar-thumb {
-            background-color: #c82333;
-            border-radius: 4px;
-        }
-        .student-list::-webkit-scrollbar-track {
-            background-color: #1e1e1e;
-        }
-    </style>
 </head>
 <body>
     <script>
@@ -81,7 +58,7 @@ $res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as in
                 $al_q = mysqli_query($conn, "SELECT id, nombre, apellidos, matricula, $campo_matricula_visible
                                              FROM alumnos WHERE club_id = '$id_club'");
             ?>
-                <div class="card-club" onclick="this.querySelector('.student-list').classList.toggle('show')">
+                <div class="card-club">
                     <div class="card-header-red">
                         <div>
                             <h2 class="club-name"><?= $nom_raw ?></h2>
@@ -89,7 +66,7 @@ $res_clubes = mysqli_query($conn, "SELECT c.id, c.nombre_club, COUNT(a.id) as in
                         </div>
                         <span><?= $c['inscritos'] ?> INSCRITOS</span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" onclick="this.nextElementSibling.classList.toggle('show')">
                         <small>&#9660; Ver alumnos inscritos</small>
                     </div>
                     <div class="student-list">

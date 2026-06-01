@@ -143,12 +143,12 @@ $res_reporte = mysqli_query($conn, $sql);
                             <tr>
                                 <td class="m-text">
                                     <?php 
-                                    $mat = $row['matricula'];
-                                    if (strpos($mat, '$2y$') === 0) {
-                                        echo "221000" . str_pad($row['id'], 4, "0", STR_PAD_LEFT);
-                                    } else {
-                                        echo htmlspecialchars($mat);
-                                    }
+                                    $matricula = !empty($row['matricula_visible'])
+                                        ? $row['matricula_visible']
+                                        : ((strpos($row['matricula'], '$2y$') === 0)
+                                            ? "221000" . str_pad($row['id'], 4, "0", STR_PAD_LEFT)
+                                            : $row['matricula']);
+                                    echo htmlspecialchars($matricula);
                                     ?>
                                 </td>
                                 <td><?= htmlspecialchars($row['nombre']) ?></td>

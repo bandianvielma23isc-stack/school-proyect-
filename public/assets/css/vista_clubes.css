@@ -63,6 +63,7 @@
     border-radius: var(--radius-sm);
     overflow: hidden;
     transition: box-shadow 0.2s;
+    align-self: start;
 }
 
 .card-club:hover {
@@ -124,6 +125,28 @@
 
 .student-list.show {
     display: block;
+    max-height: 120px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rojo-tec) #1e1e1e;
+}
+
+.student-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.student-list::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+.student-list::-webkit-scrollbar-thumb {
+    background: var(--rojo-tec);
+    border-radius: 8px;
+}
+
+.student-list::-webkit-scrollbar-thumb:hover {
+    background: var(--rojo-oscuro);
 }
 
 .student-row {
