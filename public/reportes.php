@@ -69,6 +69,7 @@ $res_reporte = mysqli_query($conn, $sql);
             border-radius: 5px;
         }
         
+        /* Reglas de sobreescritura para el modo de exportación PDF */
         .pdf-mode {
             background: #ffffff !important;
             color: #000000 !important;
@@ -77,6 +78,11 @@ $res_reporte = mysqli_query($conn, $sql);
         .pdf-mode table {
             width: 100% !important;
             border-collapse: collapse !important;
+            background-color: #ffffff !important;
+        }
+        .pdf-mode tr {
+            background-color: #ffffff !important;
+            background: #ffffff !important;
         }
         .pdf-mode th {
             background-color: #B30000 !important;
@@ -88,7 +94,8 @@ $res_reporte = mysqli_query($conn, $sql);
             color: #000000 !important;
             padding: 10px !important;
             border: 1px solid #ddd !important;
-            background: transparent !important;
+            background-color: #ffffff !important;
+            background: #ffffff !important;
         }
         .pdf-mode h2 {
             color: #B30000 !important;

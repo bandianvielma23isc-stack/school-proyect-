@@ -1,8 +1,7 @@
 <?php
 $host = "localhost";
 $user = "root";
-
-$pass = "300605"; 
+$pass = "1234"; 
 $db = "sistema_clubes"; 
 
 $conn = mysqli_connect($host, $user, $pass, $db);
