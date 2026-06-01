@@ -29,6 +29,8 @@ if (strpos($mat, '$2y$') === 0) {
 } else {
     echo htmlspecialchars($mat);
 }
+```
+
 ### Riesgos Evaluados y Mitigados:
 * **Seguridad:** Cero riesgo. Las funciones criptográficas siguen operando con normalidad en el Login e Inserción; el enmascaramiento ocurre únicamente al renderizar las tablas de consulta.
 * **Rendimiento:** El impacto de las funciones nativas de strings en PHP (`strpos` y `str_pad`) es imperceptible ($O(1)$ por fila procesada), manteniendo el buscador en tiempo real fluido.
