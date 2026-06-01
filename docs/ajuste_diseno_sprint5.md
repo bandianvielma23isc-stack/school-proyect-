@@ -45,12 +45,18 @@ alumnos -> registro
 * Se unificó la tipografía (caligrafía general) y se estandarizó el uso de mayúsculas/apóstrofes en los campos de nombre para mantener coherencia visual.
 
 ### Antes del Ajuste
-*ruta de la imagen de referencia*
-*Descripción:*
+
+* La caligrafia era incoherente, mayusuculas combinadas con minusculas en campos diferentes.
+* Al seleccionar una carrera siempre se seleccionaba la de sistemas por defecto.
+* No existia una barra de busqueda para filtrar alumnos.
+* NO existia la implementacion de una imagen en la foto de perfil del alumno
 
 ### Después del Ajuste (Implementado)
-*ruta de la imagen de referencia*
-*Descripción:* 
+
+* La caligrafia es coherente y homogena, no existen incongruencias visuales.
+* El cajon de carrera ahora aparece vacio con la opcion "seleccione-una-carrera".
+* Se implemento una barra de busqueda en el dasboard del administrador para filtrar alumnos.
+* Ahora el alumno puede agregar una foto de perfil y eliminarla si no es de su agrado.
 
 ---
 
