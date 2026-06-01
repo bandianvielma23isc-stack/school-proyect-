@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 
-$pass = ""; 
+$pass = "300605"; 
 $db = "sistema_clubes"; 
 
 $conn = mysqli_connect($host, $user, $pass, $db);

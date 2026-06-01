@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -55,15 +55,16 @@ $clubes = mysqli_query($conn, "SELECT * FROM clubes");
             <input
                 type="text"
                 name="matricula"
-                value="<?= $al['matricula'] ?>"
+                value="<?= htmlspecialchars(!empty($al['matricula_visible']) ? $al['matricula_visible'] : ((strpos($al['matricula'], '$2y$') === 0) ? '' : $al['matricula'])) ?>"
                 placeholder="Ej: 2210001500"
-                pattern="[0-9]{10}"
-                title="Exactamente 10 dígitos numéricos"
-                maxlength="10"
-                minlength="10"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                pattern="[0-9]{7,12}"
+                title="La matricula debe tener entre 7 y 12 digitos numericos"
+                maxlength="12"
+                minlength="7"
+                inputmode="numeric"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12)"
                 required>
-            <small class="field-hint">Matrícula: exactamente 10 dígitos</small>
+            <small class="field-hint">Entre 7 y 12 digitos</small>
             <select name="carrera" required>
                 <option value="Sistemas Computacionales" <?= $al['carrera'] == 'Sistemas Computacionales' ? 'selected' : '' ?>>Sistemas Computacionales</option>
                 <option value="Industrial"               <?= $al['carrera'] == 'Industrial'               ? 'selected' : '' ?>>Industrial</option>

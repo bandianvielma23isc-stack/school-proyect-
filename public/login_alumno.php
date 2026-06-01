@@ -32,7 +32,7 @@ if (isset($_SESSION['admin_auth']) || isset($_SESSION['alumno_matricula'])) {
                 type="text"
                 name="nombre"
                 id="nombre"
-                placeholder="Nombre completo"
+                placeholder="Nombre(s)"
                 maxlength="30"
                 title="Solo letras, máximo 30 caracteres"
                 oninput="this.value = this.value.replace(/[^A-Za-zñÑáéíóúÁÉÍÓÚ\s]/g, '')"
@@ -41,8 +41,12 @@ if (isset($_SESSION['admin_auth']) || isset($_SESSION['alumno_matricula'])) {
                 type="text"
                 name="matricula"
                 placeholder="Matrícula"
-                maxlength="20"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                pattern="[0-9]{7,12}"
+                title="La matricula debe tener entre 7 y 12 digitos numericos"
+                maxlength="12"
+                minlength="7"
+                inputmode="numeric"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12)"
                 required>
             <button type="submit">ENTRAR</button>
         </form>
