@@ -15,6 +15,18 @@ $id     = mysqli_real_escape_string($conn, $_GET['id']);
 $res    = mysqli_query($conn, "SELECT * FROM alumnos WHERE id = '$id'");
 $al     = mysqli_fetch_array($res);
 $clubes = mysqli_query($conn, "SELECT * FROM clubes");
+
+// Si apellidos está vacío pero nombre tiene espacios, separar automáticamente
+$nombre = $al['nombre'];
+$apellidos = $al['apellidos'];
+
+if (empty($apellidos) && strpos($nombre, ' ') !== false) {
+    $partes = explode(' ', trim($nombre));
+    $nombre = array_shift($partes);
+    $apellidos = implode(' ', $partes);
+    $al['nombre'] = $nombre;
+    $al['apellidos'] = $apellidos;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -115,6 +127,16 @@ $clubes = mysqli_query($conn, "SELECT * FROM clubes");
         });
     </script>
     <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('status') === 'matricula_existe') {
+        Swal.fire({
+            title: 'Error',
+            text: 'Esta matrícula ya está registrada en otro alumno. Por favor, verifica el número.',
+            icon: 'error',
+            confirmButtonColor: '#B30000'
+        });
+    }
+    
     window.addEventListener('pageshow', function(e) {
         if (e.persisted) {
             window.location.reload();

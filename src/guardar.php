@@ -20,6 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    // Verificar si la matrícula ya está registrada
+    $matricula_limpia_check = mysqli_real_escape_string($conn, $matricula_val);
+    $query_check = "SELECT id FROM alumnos WHERE matricula_visible = '$matricula_limpia_check'";
+    $res_check = mysqli_query($conn, $query_check);
+    
+    if (mysqli_num_rows($res_check) > 0) {
+        header("Location: ../public/registrar.php?status=matricula_existe");
+        exit();
+    }
+
     $nombres   = mysqli_real_escape_string($conn, $nombre_val);
     $apellidos = mysqli_real_escape_string($conn, $apellido_val);
     $carrera   = mysqli_real_escape_string($conn, $carrera_val);
@@ -33,17 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_query($conn, "ALTER TABLE alumnos ADD COLUMN matricula_visible VARCHAR(255) NULL");
     }
 
-    $query = "INSERT INTO alumnos (nombre, matricula, matricula_visible, carrera, club_id) 
-              VALUES ('$nombre_completo', '$matricula_encriptada', '$matricula_limpia', '$carrera', $club_val)";
+    $query = "INSERT INTO alumnos (nombre, apellidos, matricula, matricula_visible, carrera, club_id) 
+              VALUES ('$nombres', '$apellidos', '$matricula_encriptada', '$matricula_limpia', '$carrera', $club_val)";
 
     if (mysqli_query($conn, $query)) {
-        $nuevo_id = mysqli_insert_id($conn);
+        $_SESSION['registro_exitoso'] = true;
+        $_SESSION['alumno_nombre_registro'] = $nombre_completo;
 
-        $_SESSION['alumno_id'] = $nuevo_id; 
-        $_SESSION['alumno_nombre'] = $nombre_completo;
-        $_SESSION['alumno_matricula_limpia'] = $matricula_val; // Guardamos la limpia para la credencial
-
-        header("Location: ../public/perfil_alumno.php");
+        header("Location: ../public/registrar.php?status=success");
         exit();
     } else {
         echo "Error en la base de datos: " . mysqli_error($conn);
