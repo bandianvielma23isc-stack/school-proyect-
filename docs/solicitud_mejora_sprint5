@@ -1,0 +1,135 @@
+# Documento de Solicitudes de Mejora - Club Manager Escolar
+
+* **Proyecto:** Club Manager Escolar
+* **Origen:** Observaciones de la revisión del 20 de mayo por el docente Román Antonio Gómez Peralta
+* **Analista:** Luis Alejandro Viesca Hinojoza
+* **Docente:** Román Antonio Gómez Peralta
+
+---
+
+## 📋 Resumen de Mejoras Solicitadas
+
+A continuación se detallan los problemas detectados y las soluciones técnicas que se implementarán en la plataforma, clasificados por prioridad.
+
+### 🔴 Prioridad: Alta
+
+#### 1. Corrección en registro de nombres
+* **Observación externa:** El maestro Román indicó que el sistema falla o se comporta raro si el nombre del alumno lleva un apóstrofe, y que falta uniformidad con las mayúsculas.
+* **Problema detectado:** Los nombres con caracteres especiales (como el apóstrofe) pueden causar errores en las consultas de la base de datos o truncar el texto. Además, escribir nombres combinando mayúsculas y minúsculas sin control hace que las listas se vean desordenadas.
+* **Mejora solicitada:** Validar y limpiar el texto ingresado para que acepte apóstrofes sin errores y forzar a que el sistema guarde y muestre los nombres en MAYÚSCULAS en los campos principales.
+* **Versión que se implementará:** Se agregará una función de limpieza de texto en PHP antes de hacer el insert en MySQL, y se usará el estilo `text-transform: uppercase` en los campos de los formularios.
+* **Justificación:** Evita errores de código al registrar alumnos con apellidos especiales y estandariza el formato visual de la plataforma.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Validación / Interfaz de usuario
+  * **Requisito afectado:** RF: Registro de Alumnos / RNF: Consistencia de datos
+
+#### 2. Mensajes de error claros
+* **Observación externa:** Cuando ocurre una falla al llenar un formulario o al guardar datos, el sistema no muestra un aviso claro.
+* **Problema detectado:** Si el sistema falla de manera interna, el usuario se queda confundido porque la pantalla no dice si los datos se guardaron o qué fue lo que falló.
+* **Mejora solicitada:** Crear alertas o avisos visuales claros que aparezcan inmediatamente en la pantalla cuando ocurra algún error.
+* **Versión que se implementará:** Se incluirán bloques de alerta de color rojo (usando Bootstrap) que se activarán cuando el backend regrese una respuesta de error.
+* **Justificación:** Le da claridad al usuario sobre el estado de sus operaciones y facilita el soporte técnico.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Retroalimentación
+  * **Requisito afectado:** RNF: Manejo de errores
+
+#### 3. Cierre de sesión al ir atrás en el navegador
+* **Observación externa:** Al darle al botón de "regresar" del navegador después de cerrar sesión, se vuelven a mostrar los datos de la pantalla anterior.
+* **Problema detectado:** La sesión no se destruye por completo en el historial de la caché del navegador, lo que permite que cualquiera pueda ver los datos anteriores sin estar logueado.
+* **Mejora solicitada:** Forzar al sistema a cerrar la sesión por completo y bloquear el acceso a las pantallas internas si el usuario intenta regresar en el historial.
+* **Versión que se implementará:** Se configurarán las cabeceras de PHP para evitar que el navegador guarde la página en la caché (`Cache-Control: no-store`) y se agregará una validación de sesión al inicio de la página.
+* **Justificación:** Evita problemas de seguridad si el sistema se usa en computadoras compartidas de la escuela.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Seguridad
+  * **Requisito afectado:** RNF: Seguridad de sesión
+
+#### 4. Módulo para registrar maestros con filtros
+* **Observación externa:** Es necesario incorporar de forma explícita el rol y registro de 'Maestro' en el ecosistema, dotando a la tabla resultante de capacidades de búsqueda dinámica y filtrado por carrera.
+* **Problema detectado:** Actualmente el sistema solo está pensado para los alumnos, por lo que no hay forma de dar de alta a los profesores encargados de los clubes ni de buscarlos rápidamente en una lista.
+* **Mejora solicitada:** Crear el módulo completo para registrar maestros, agregando una barra de búsqueda para la tabla y un filtro directo para agruparlos por su carrera.
+* **Versión que se implementará:** Se creará la tabla "maestros" en la base de datos con su respectivo formulario CRUD, y se programará la búsqueda y el filtro dinámico con JavaScript.
+* **Justificación:** Permite tener el control completo de los asesores de cada club escolar y agiliza las búsquedas en el sistema.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Nueva funcionalidad / Consulta
+  * **Requisito afectado:** RF: Gestión de Docentes
+
+#### 5. Generación de reportes
+* **Observación externa:** El docente observó que hace falta una opción para poder descargar o exportar los datos guardados en el sistema.
+* **Problema detectado:** Si los encargados necesitan las listas de los alumnos inscritos en los clubes para una junta o revisión, tienen que copiar la información de la pantalla a mano.
+* **Mejora solicitada:** Añadir una función específica para "Generar reportes de la info" que permita bajar los datos de forma limpia.
+* **Versión que se implementará:** Se integrará un botón para exportar las tablas directamente a archivos descargables en formato PDF o Excel (CSV).
+* **Justificación:** Facilita el trabajo administrativo al permitir compartir y entregar las listas de forma física o digital.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Módulo de salida
+  * **Requisito afectado:** RF: Exportación de datos
+
+#### 6. Encriptar contraseñas con algoritmo Sal
+* **Observación externa:** Se identificó la necesidad urgente de proteger las contraseñas de los usuarios utilizando métodos seguros en la base de datos.
+* **Problema detectado:** Guardar las contraseñas en texto plano o con métodos muy viejos es peligroso, ya que si alguien accede a la base de datos puede ver las claves de todos los alumnos y maestros.
+* **Mejora solicitada:** Asegurar que las contraseñas se guarden encriptadas usando un algoritmo fuerte combinado con una variable Sal (Salt).
+* **Versión que se implementará:** Se utilizará la función nativa `password_hash()` de PHP con el algoritmo BCRYPT para procesar la contraseña de forma segura antes de guardarla en la base de datos.
+* **Justificación:** Es un requisito indispensable de seguridad para proteger las cuentas y accesos de los usuarios del sistema.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Seguridad de datos
+  * **Requisito afectado:** RNF: Seguridad de la base de datos
+
+---
+
+
+* **Observación externa:** En la revisión se vio que el formulario no deja marcada la carrera que el usuario seleccionó si la página se llega a recargar.
+* **Problema detectado:** El menú desplegable (select) regresa a su valor por defecto si ocurre un error de validación en el formulario, haciendo que el usuario tenga que volver a elegir la carrera desde cero.
+* **Mejora solicitada:** Hacer que la carrera elegida se quede guardada o seleccionada de forma fija en la pantalla, evitando que se borre.
+* **Versión que se implementará:** Se meterá una condición en el código HTML con PHP para verificar el último valor enviado y mantener la etiqueta `selected` en la carrera correcta.
+* **Justificación:** Mejora la experiencia del usuario y evita que se registren alumnos en carreras equivocadas por accidente.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Usabilidad
+  * **Requisito afectado:** RF: Registro de Alumnos
+
+* **Observación externa:** Se observó que el sistema muestra notas o comentarios de la administración que no deberían ser visibles para todos los usuarios.
+* **Problema detectado:** Mostrar comentarios técnicos o notas internas importantes en las pantallas normales satura la interfaz y expone información que debe ser privada.
+* **Mejora solicitada:** Aplicar un filtro para ocultar los comentarios confidenciales en las vistas públicas y mostrarlos solo a usuarios autorizados.
+* **Versión que se implementará:** Se modificará la consulta SQL para que no traiga el campo de comentarios en la vista general y solo se cargue en la sesión del administrador.
+* **Justificación:** Protege la privacidad de las notas internas del control de los clubes.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Seguridad / Roles
+  * **Requisito afectado:** RF: Control de Roles
+
+#### 9. Complementar pantalla de alumno y subir foto
+* **Observación externa:** La pantalla actual del alumno se ve incompleta y requiere que se le agreguen más datos, además de la opción de subir una fotografía.
+* **Problema detectado:** El perfil del alumno solo muestra texto básico, lo que hace que la ficha del estudiante se vea muy simple y no permita identificar visualmente a los integrantes del club.
+* **Mejora solicitada:** Ampliar la información que se muestra en la pantalla del alumno e integrar un botón para adjuntar y guardar su foto de perfil.
+* **Versión que se implementará:** Se modificará el diseño de la vista del perfil del alumno, agregando un campo de tipo archivo (`input type="file"`) para subir la imagen y almacenar su ruta en el servidor.
+* **Justificación:** Hace que el expediente del alumno esté más completo y sea más fácil de identificar por los coordinadores.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Ampliación de módulo
+  * **Requisito afectado:** RF: Perfil del Alumno
+
+---
+
+### 🟢 Prioridad: Baja
+
+#### 10. Correcciones de tipografía y ortografía
+* **Observación externa:** El docente señaló que hay problemas de caligrafía general, textos mal alineados y diferentes tipos de letra en las pantallas del sistema.
+* **Problema detectado:** El uso de tipografías distintas y pequeños errores ortográficos en los títulos o etiquetas le quitan seriedad y presentación profesional al sistema.
+* **Mejora solicitada:** Revisar detalladamente todos los textos de las interfaces (etiquetas, botones y alertas) para unificar la letra y corregir la ortografía.
+* **Versión que se implementará:** Se corregirán los textos directamente en los archivos de la vista y se definirá una sola fuente tipográfica limpia en el archivo CSS general.
+* **Justificación:** Es necesario para que el sistema tenga una estética limpia y profesional para su entrega.
+* **Detalles técnicos:**
+  * **Tipo de mejora:** Estética / Interfaz Gráfica
+  * **Requisito afectado:** RNF: Consistencia visual
+
+---
+
+
+| Mejora | Tipo de Mejora | Requisito Afectado | Prioridad |
+| :--- | :--- | :--- | :--- |
+| **Registro de nombres** | Validación / UI | RF: Registro de Alumnos / RNF: Consistencia | Alta |
+| **Mensajes de error** | Retroalimentación | RNF: Manejo de errores | Alta |
+| **Cierre de sesión (Historial)** | Seguridad | RNF: Seguridad de sesión | Alta |
+| **Módulo de maestros** | Nueva funcionalidad | RF: Gestión de Docentes | Alta |
+| **Generación de reportes** | Módulo de salida | RF: Exportación de datos | Alta |
+| **Encriptar contraseñas** | Seguridad de datos | RNF: Seguridad de BD | Alta |
+| **Selección de carrera** | Usabilidad | RF: Registro de Alumnos | Media |
+| **Ocultar comentarios** | Seguridad / Roles | RF: Control de Roles | Media |
+| **Pantalla alumno y foto** | Ampliación de módulo | RF: Perfil del Alumno | Media |
+| **Tipografía y ortografía** | Estética / GUI | RNF: Consistencia visual | Baja |
