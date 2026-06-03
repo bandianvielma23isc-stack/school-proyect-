@@ -22,3 +22,7 @@ Thumbs.db
 # Windows
 Thumbs.db
 desktop.ini
+
+# Configuración sensible
+config/admin_credentials.php
+config/conexion.php

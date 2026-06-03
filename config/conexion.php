@@ -1,8 +1,12 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "300605"; 
-$db = "sistema_clubes"; 
+// Cargar variables desde .env
+require_once __DIR__ . '/load_env.php';
+
+// Obtener valores del .env o usar valores por defecto
+$host = getenv('DB_HOST') ?: 'localhost';
+$user = getenv('DB_USER') ?: 'root';
+$pass = getenv('DB_PASS') ?: '';
+$db = getenv('DB_NAME') ?: 'sistema_clubes';
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 
