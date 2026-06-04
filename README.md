@@ -40,7 +40,7 @@ Entra a la carpeta de XAMPP:
 C:\xampp\htdocs
 ```
 
-Crea una carpeta para guardar el proyecto. Por ejemplo:
+Crea una carpeta llamada obligatoriamente `CME` para guardar el proyecto:
 
 ```text
 C:\xampp\htdocs\CME
@@ -62,7 +62,8 @@ Al terminar, la estructura debería quedar parecida a esta:
 C:\xampp\htdocs\CME\school-proyect-
 ```
 
-Si usas otro nombre de carpeta en lugar de `CME`, recuerda usar ese nombre en la URL final.
+Importante: la carpeta dentro de `htdocs` debe llamarse exactamente `CME`.
+El proyecto usa rutas locales pensadas para esta estructura, por lo que si la carpeta tiene otro nombre algunas redirecciones pueden fallar.
 
 ### 3. Crear la base de datos
 
@@ -126,29 +127,19 @@ Con Apache activo, abre esta URL:
 http://localhost/CME/school-proyect-/public/
 ```
 
-Si tu carpeta dentro de `htdocs` tiene otro nombre, cambia `CME` por el nombre real:
+No cambies el nombre de la carpeta `CME`. La estructura esperada es:
 
 ```text
-http://localhost/nombre_carpeta/school-proyect-/public/
+C:\xampp\htdocs\CME\school-proyect-
 ```
-
-Ejemplo:
-
-```text
-http://localhost/MisProyectos/school-proyect-/public/
-```
-
 
 
 ## Notas importantes de seguridad
 
 La carpeta correcta para entrar al sistema es `public/`.
 
-No se recomienda entrar desde:
 
-```text
-http://localhost/nombre_carpeta/school-proyect-/
-```
+En este proyecto, `nombre_carpeta` debe ser `CME`.
 
 
 Si Apache sigue mostrando páginas tipo `Index of`, revisa que en la configuración de Apache esté permitido el uso de archivos `.htaccess` mediante `AllowOverride All`.
@@ -231,5 +222,4 @@ Soluciones:
 ## Equipo
 
 **Equipo Los Tilines** - TEC San Pedro
-
 
