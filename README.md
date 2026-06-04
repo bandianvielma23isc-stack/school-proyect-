@@ -65,6 +65,29 @@ C:\xampp\htdocs\CME\school-proyect-
 Importante: la carpeta dentro de `htdocs` debe llamarse exactamente `CME`.
 El proyecto usa rutas locales pensadas para esta estructura, por lo que si la carpeta tiene otro nombre algunas redirecciones pueden fallar.
 
+### 2.1. Copiar archivos de seguridad para la carpeta `CME`
+
+Para evitar que Apache muestre la pantalla `Index of /CME`, copia estos dos archivos:
+
+```text
+C:\xampp\htdocs\CME\school-proyect-\setup\cme-root\.htaccess
+C:\xampp\htdocs\CME\school-proyect-\setup\cme-root\index.php
+```
+
+y pégalos directamente en:
+
+```text
+C:\xampp\htdocs\CME
+```
+
+Al final deben existir así:
+
+```text
+C:\xampp\htdocs\CME\.htaccess
+C:\xampp\htdocs\CME\index.php
+C:\xampp\htdocs\CME\school-proyect-
+```
+
 ### 3. Crear la base de datos
 
 Crear la base de datos desde MySQL Workbench.
@@ -143,6 +166,7 @@ En este proyecto, `nombre_carpeta` debe ser `CME`.
 
 
 Si Apache sigue mostrando páginas tipo `Index of`, revisa que en la configuración de Apache esté permitido el uso de archivos `.htaccess` mediante `AllowOverride All`.
+También confirma que copiaste los archivos de `setup/cme-root/` a la carpeta `C:\xampp\htdocs\CME`.
 
 ---
 
@@ -222,4 +246,3 @@ Soluciones:
 ## Equipo
 
 **Equipo Los Tilines** - TEC San Pedro
-
