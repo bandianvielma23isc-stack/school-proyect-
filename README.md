@@ -65,9 +65,11 @@ C:\xampp\htdocs\CME\school-proyect-
 Importante: la carpeta dentro de `htdocs` debe llamarse exactamente `CME`.
 El proyecto usa rutas locales pensadas para esta estructura, por lo que si la carpeta tiene otro nombre algunas redirecciones pueden fallar.
 
-### 2.1. Copiar archivos de seguridad para la carpeta `CME`
+### 2.1. Copiar archivos de configuración a la carpeta `CME`
 
-Para evitar que Apache muestre la pantalla `Index of /CME`, copia estos dos archivos:
+> ⚠️ Este paso es obligatorio. Sin él, Apache mostrará la pantalla `Index of /CME` en lugar de cargar el sistema.
+
+Para evitar que Apache muestre el listado de archivos, copia estos dos archivos:
 
 ```text
 C:\xampp\htdocs\CME\school-proyect-\setup\cme-root\.htaccess
@@ -87,6 +89,16 @@ C:\xampp\htdocs\CME\.htaccess
 C:\xampp\htdocs\CME\index.php
 C:\xampp\htdocs\CME\school-proyect-
 ```
+
+También puedes hacerlo automáticamente ejecutando este archivo:
+
+```text
+C:\xampp\htdocs\CME\school-proyect-\setup\instalar-cme-root.bat
+```
+
+Si Windows pregunta permisos, acepta la ejecución. El script copia el `.htaccess` y el `index.php` a la carpeta padre `CME`.
+
+> 💡 El `.htaccess` es un archivo oculto. Si no lo ves en el Explorador de Windows, activa "Mostrar archivos ocultos" desde la pestaña Vista.
 
 ### 3. Crear la base de datos
 
@@ -110,15 +122,29 @@ En MySQL Workbench:
 2. Abre el archivo `config/queryDB.sql`.
 3. Ejecuta todo el script.
 
-
 El script ya incluye `CREATE DATABASE IF NOT EXISTS sistema_clubes`, así que puede crear la base de datos automáticamente si no existe.
 
 ### 4. Configurar la conexión a MySQL
 
+Copia el archivo de ejemplo y renómbralo:
+
+```text
+.env.example  →  .env
+```
+
+Abre el archivo `.env` y ajusta los valores según tu instalación:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=sistema_clubes
+DB_USER=root
+DB_PASS=
+```
 
 En la mayoría de los casos se usa el puerto `3306`, que es el puerto común de MySQL.
 
-Si usas MySQL desde XAMPP y está configurado en el puerto `3307`, cambia:
+Si usas MySQL desde XAMPP y está configurado en el puerto `3307`, cambia `DB_PORT=3307`.
 
 También ajusta `DB_PASS` si tu usuario `root` tiene contraseña. En muchas instalaciones de XAMPP el usuario es `root` y la contraseña va vacía.
 
@@ -140,11 +166,17 @@ Para cambiar el puerto de MySQL en XAMPP:
 5. Cámbialas a `port=3307`.
 6. Guarda el archivo.
 7. Reinicia MySQL desde XAMPP.
-8. En el proyecto, cambia a `DB_PORT=3307`.
+8. En el proyecto, cambia a `DB_PORT=3307` en el archivo `.env`.
 
 ### 6. Ejecutar el sistema
 
 Con Apache activo, abre esta URL:
+
+```text
+http://localhost/CME/
+```
+
+Debe redirigirte automáticamente al sistema. Si prefieres entrar directo:
 
 ```text
 http://localhost/CME/school-proyect-/public/
@@ -156,14 +188,11 @@ No cambies el nombre de la carpeta `CME`. La estructura esperada es:
 C:\xampp\htdocs\CME\school-proyect-
 ```
 
+---
 
 ## Notas importantes de seguridad
 
 La carpeta correcta para entrar al sistema es `public/`.
-
-
-En este proyecto, `nombre_carpeta` debe ser `CME`.
-
 
 Si Apache sigue mostrando páginas tipo `Index of`, revisa que en la configuración de Apache esté permitido el uso de archivos `.htaccess` mediante `AllowOverride All`.
 También confirma que copiaste los archivos de `setup/cme-root/` a la carpeta `C:\xampp\htdocs\CME`.
@@ -178,9 +207,30 @@ Significa que Apache está mostrando el listado de archivos de una carpeta.
 
 Soluciones:
 
+- Confirma que existen estos archivos:
+
+```text
+C:\xampp\htdocs\CME\.htaccess
+C:\xampp\htdocs\CME\index.php
+```
+
+- Si no existen, ejecuta:
+
+```text
+C:\xampp\htdocs\CME\school-proyect-\setup\instalar-cme-root.bat
+```
+
+- Prueba abrir directamente:
+
+```text
+http://localhost/CME/index.php
+```
+
+Si esa URL no abre, el proyecto no está realmente en `C:\xampp\htdocs\CME` o Apache está usando otra carpeta `htdocs`.
+
 - Entra directamente a `public/`.
 - Verifica que existan los archivos `.htaccess`.
-- Revisa que Apache tenga habilitado `AllowOverride All`.
+- Revisa que Apache tenga habilitado `AllowOverride All` en `httpd.conf`.
 - Reinicia Apache desde XAMPP después de cambiar configuración.
 
 ### Error de conexión a la base de datos
@@ -190,7 +240,7 @@ Revisa:
 - Que MySQL esté iniciado.
 - Que la base de datos `sistema_clubes` exista.
 - Que el archivo `config/queryDB.sql` se haya ejecutado completo.
-- Que `DB_HOST`, `DB_PORT`, `DB_USER` y `DB_PASS` coincidan con tu instalación.
+- Que `DB_HOST`, `DB_PORT`, `DB_USER` y `DB_PASS` en el archivo `.env` coincidan con tu instalación.
 
 ### `Access denied for user 'root'@'localhost'`
 
