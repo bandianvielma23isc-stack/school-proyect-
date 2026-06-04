@@ -23,12 +23,8 @@ if (!isset($_SESSION['alumno_id'])) {
 
 $alumno_id = intval($_SESSION['alumno_id']);
 
-// Conectar a la base de datos
-$conn = @mysqli_connect("localhost", "root", "300605", "sistema_clubes");
-if (!$conn) {
-    enviarJSON(['error' => 'No se pudo conectar a la base de datos'], 500);
-}
-mysqli_set_charset($conn, "utf8mb4");
+// Conectar a la base de datos usando la configuracion central del proyecto
+require_once __DIR__ . '/../config/conexion.php';
 
 // ============================================
 // ELIMINAR FOTO

@@ -1,87 +1,235 @@
-# Sistema de Gestión de Clubes Escolares
+# Club Manager Escolar (CME)
+
 ### TEC San Pedro | Equipo Los Tilines
 
-Sistema web para la gestión de clubes escolares del Tecnológico de San Pedro. Permite a los alumnos registrarse e inscribirse a un club, y al administrador gestionar alumnos y clubes desde un panel de control.
+Sistema web para la gestión de clubes escolares del Tecnológico de San Pedro. Permite que los alumnos se registren, inicien sesión, se inscriban a un club y administren su perfil. También incluye paneles para consultar alumnos, clubes, reportes, estadísticas y maestros.
 
 ---
 
 ## Tecnologías utilizadas
 
-El proyecto fue desarrollado con PHP para la lógica del servidor, MySQL como base de datos, HTML5 y CSS3 para la interfaz de usuario, y XAMPP como entorno local de desarrollo.
+- PHP
+- MySQL
+- HTML5
+- CSS3
+- XAMPP
+- Git
 
 ---
 
 ## Requisitos previos
 
-Antes de instalar el proyecto necesitas tener instalado XAMPP versión 7.4 o superior, Git para clonar el repositorio, y un navegador web moderno como Chrome, Firefox o Edge.
+Antes de instalar el proyecto necesitas:
+
+- XAMPP instalado.
+- Apache activo desde el panel de XAMPP.
+- MySQL activo. Puede ser el MySQL de XAMPP o una instalación externa como MySQL Workbench/MySQL Server.
+- Git instalado para clonar el repositorio.
+- Un navegador web moderno, como Chrome, Edge o Firefox.
+- Visual Studio Code, recomendado para abrir y revisar el proyecto.
 
 ---
 
 ## Instalación
 
-**1. Iniciar XAMPP**
+### 1. Crear una carpeta dentro de `htdocs`
 
-Abre el Panel de Control de XAMPP y activa los módulos de Apache y MySQL.
+Entra a la carpeta de XAMPP:
 
-**2. Clonar el repositorio**
+```text
+C:\xampp\htdocs
+```
 
-Abre una terminal y navega a la carpeta `htdocs` de tu instalación de XAMPP. En Windows la ruta es `C:\xampp\htdocs` y en Mac/Linux es `/Applications/XAMPP/htdocs`. Una vez ahí, ejecuta:
+Crea una carpeta para guardar el proyecto. Por ejemplo:
+
+```text
+C:\xampp\htdocs\CME
+```
+
+Después abre esa carpeta en Visual Studio Code.
+
+### 2. Clonar el repositorio
+
+Abre una terminal dentro de la carpeta que creaste y ejecuta:
 
 ```bash
-git clone https://github.com/tu-usuario/school-proyect-.git GestorClubes
+git clone https://github.com/bandianvielma23isc-stack/school-proyect-.git
 ```
 
-Esto creará la carpeta `GestorClubes` dentro de `htdocs`.
+Al terminar, la estructura debería quedar parecida a esta:
 
-**3. Crear la base de datos**
-
-Abre tu navegador y entra a `http://localhost/phpmyadmin`. Crea una nueva base de datos llamada `sistema_clubes` con cotejamiento `utf8_general_ci`. Con la base de datos seleccionada, ve a la pestaña Importar, selecciona el archivo `bd/sistema_clubes.sql` que está dentro del proyecto y haz clic en Importar.
-
-**4. Configurar la conexión**
-
-Abre el archivo `config/conexion.php` y verifica que los datos coincidan con tu instalación. Por defecto XAMPP usa usuario `root` sin contraseña, por lo que no deberías necesitar modificar nada a menos que hayas configurado una contraseña distinta en MySQL.
-
-**5. Configurar el archivo .env**
-
-En la raíz del proyecto edita el archivo `.env` con los siguientes valores:
-
-```
-DB_HOST=localhost
-DB_NAME=sistema_clubes
-DB_USER=root
-DB_PASS=
-
-APP_ENV=development
-APP_DEBUG=true
-APP_URL=http://localhost/GestorClubes/school-proyect-/public
+```text
+C:\xampp\htdocs\CME\school-proyect-
 ```
 
-**6. Ejecutar el proyecto**
+Si usas otro nombre de carpeta en lugar de `CME`, recuerda usar ese nombre en la URL final.
 
-Abre tu navegador y entra a la siguiente URL:
+### 3. Crear la base de datos
 
+Crear la base de datos desde MySQL Workbench.
+
+Nombre de la base de datos:
+
+```text
+sistema_clubes
 ```
-http://localhost/GestorClubes/school-proyect-/public/index.php
+
+El archivo SQL que crea las tablas está en:
+
+```text
+config/queryDB.sql
 ```
+
+En MySQL Workbench:
+
+1. Abre una conexión a tu servidor MySQL.
+2. Abre el archivo `config/queryDB.sql`.
+3. Ejecuta todo el script.
+
+
+El script ya incluye `CREATE DATABASE IF NOT EXISTS sistema_clubes`, así que puede crear la base de datos automáticamente si no existe.
+
+### 4. Configurar la conexión a MySQL
+
+
+En la mayoría de los casos se usa el puerto `3306`, que es el puerto común de MySQL.
+
+Si usas MySQL desde XAMPP y está configurado en el puerto `3307`, cambia:
+
+También ajusta `DB_PASS` si tu usuario `root` tiene contraseña. En muchas instalaciones de XAMPP el usuario es `root` y la contraseña va vacía.
+
+### 5. Revisar el puerto de MySQL en XAMPP
+
+Si MySQL de XAMPP no inicia porque el puerto está ocupado, normalmente es porque ya tienes otro MySQL usando el puerto `3306`.
+
+Opciones:
+
+- Usar el MySQL externo que ya está en `3306` y dejar `DB_PORT=3306`.
+- Cambiar MySQL de XAMPP a `3307`.
+
+Para cambiar el puerto de MySQL en XAMPP:
+
+1. Abre el panel de XAMPP.
+2. En MySQL, entra a `Config`.
+3. Abre `my.ini`.
+4. Busca las líneas donde aparezca `port=3306`.
+5. Cámbialas a `port=3307`.
+6. Guarda el archivo.
+7. Reinicia MySQL desde XAMPP.
+8. En el proyecto, cambia a `DB_PORT=3307`.
+
+### 6. Ejecutar el sistema
+
+Con Apache activo, abre esta URL:
+
+```text
+http://localhost/CME/school-proyect-/public/
+```
+
+Si tu carpeta dentro de `htdocs` tiene otro nombre, cambia `CME` por el nombre real:
+
+```text
+http://localhost/nombre_carpeta/school-proyect-/public/
+```
+
+Ejemplo:
+
+```text
+http://localhost/MisProyectos/school-proyect-/public/
+```
+
+
+
+## Notas importantes de seguridad
+
+La carpeta correcta para entrar al sistema es `public/`.
+
+No se recomienda entrar desde:
+
+```text
+http://localhost/nombre_carpeta/school-proyect-/
+```
+
+
+Si Apache sigue mostrando páginas tipo `Index of`, revisa que en la configuración de Apache esté permitido el uso de archivos `.htaccess` mediante `AllowOverride All`.
 
 ---
 
-## Credenciales de administrador
+## Errores comunes
 
+### Aparece `Index of`
+
+Significa que Apache está mostrando el listado de archivos de una carpeta.
+
+Soluciones:
+
+- Entra directamente a `public/`.
+- Verifica que existan los archivos `.htaccess`.
+- Revisa que Apache tenga habilitado `AllowOverride All`.
+- Reinicia Apache desde XAMPP después de cambiar configuración.
+
+### Error de conexión a la base de datos
+
+Revisa:
+
+- Que MySQL esté iniciado.
+- Que la base de datos `sistema_clubes` exista.
+- Que el archivo `config/queryDB.sql` se haya ejecutado completo.
+- Que `DB_HOST`, `DB_PORT`, `DB_USER` y `DB_PASS` coincidan con tu instalación.
+
+### `Access denied for user 'root'@'localhost'`
+
+El usuario o la contraseña de MySQL no coinciden.
+
+Solución:
+
+- Si tu MySQL no tiene contraseña, deja `DB_PASS=` vacío.
+- Si tu MySQL sí tiene contraseña, escríbela en `DB_PASS`.
+
+### `Unknown database 'sistema_clubes'`
+
+La base de datos no existe o no se importó.
+
+Solución:
+
+- Ejecuta nuevamente el archivo `config/queryDB.sql`.
+- Confirma en MySQL Workbench o phpMyAdmin que existe la base `sistema_clubes`.
+
+### `Table doesn't exist`
+
+La base de datos existe, pero faltan tablas.
+
+Solución:
+
+- Ejecuta completo el archivo `config/queryDB.sql`.
+
+### Apache no inicia
+
+Puede que el puerto `80` esté ocupado.
+
+Soluciones:
+
+- Cierra programas que usen el puerto `80`.
+- Cambia el puerto de Apache desde `Config > httpd.conf`.
+- Si cambias Apache a otro puerto, por ejemplo `8080`, entra con:
+
+```text
+http://localhost:8080/CME/school-proyect-/public/
 ```
-Usuario:    admin
-Contraseña: TECSP
-```
 
----
+### MySQL no inicia
 
-## Solución de problemas comunes
+Puede que otro MySQL ya esté usando el puerto `3306`.
 
-Si ves una página en blanco o error 404, verifica que Apache esté activo en XAMPP y que la URL sea correcta. Si hay un error de conexión a la base de datos, revisa el archivo `config/conexion.php` y que MySQL esté activo. Si la imagen del logo no aparece, verifica que `logo_tec.png` esté en `public/assets/img/`. Si aparece el error "Table doesn't exist", importa nuevamente el archivo SQL en phpMyAdmin. Si el puerto 80 está ocupado, cambia el puerto de Apache desde XAMPP Config en el archivo `httpd.conf`.
+Soluciones:
+
+- Usa el MySQL que ya está activo en `3306`.
+- O cambia MySQL de XAMPP a `3307` y actualiza `DB_PORT=3307` en `.env`.
 
 ---
 
 ## Equipo
 
-**Equipo Los Tilines** — TEC San Pedro
-Proyecto desarrollado como parte del curso de Ingeniería de Software.
+**Equipo Los Tilines** - TEC San Pedro
+
+
