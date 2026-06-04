@@ -18,7 +18,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
 <body>
     <div class="form-card">
         <img src="assets/img/logo_tec.png" class="logo-tec" alt="TEC San Pedro"
-             onclick="window.location.href='index.php'" style="cursor:pointer;">
+             id="logoBtn" style="cursor:pointer;" title="Volver al inicio">
         <h2>Registro de Alumno</h2>
 
         <form action="../src/guardar.php" method="POST" id="formRegistro">
@@ -101,6 +101,30 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
     </div>
 
     <script>
+        const esAdminSesion = <?php echo isset($_SESSION['admin_auth']) ? 'true' : 'false'; ?>;
+
+        document.getElementById('logoBtn').addEventListener('click', function() {
+            if (!esAdminSesion) {
+                window.location.href = 'index.php';
+                return;
+            }
+
+            Swal.fire({
+                title: '¿Cerrar sesión?',
+                text: 'Se cerrará tu sesión y volverás al inicio.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#B30000',
+                cancelButtonColor: '#555',
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '../src/logout.php';
+                }
+            });
+        });
+
         function tieneLetraRepetida(valor) {
             return /([a-záéíóúñ])\1{3,}/i.test(valor);
         }
@@ -133,9 +157,7 @@ $res_clubes   = mysqli_query($conn, $query_clubes);
 
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('status') === 'success') {
-            const esAdmin = <?php echo isset($_SESSION['admin_auth']) ? 'true' : 'false'; ?>;
-            
-            if (esAdmin) {
+            if (esAdminSesion) {
                 Swal.fire({
                     title: '¡Registro Exitoso!',
                     text: 'El alumno ha sido registrado correctamente.',
