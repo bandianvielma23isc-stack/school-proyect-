@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `alumnos` (
   `matricula` VARCHAR(20) NOT NULL UNIQUE,
   `carrera` VARCHAR(100) NOT NULL,
   `id_club` INT NOT NULL,
+  'matricula_visible' INT NOT NULL UNIQUE,
   CONSTRAINT `fk_alumnos_clubes` 
     FOREIGN KEY (`id_club`) REFERENCES `clubes`(`id`) 
     ON DELETE CASCADE 
